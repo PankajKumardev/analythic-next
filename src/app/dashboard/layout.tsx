@@ -18,6 +18,12 @@ interface User {
   image: string | null;
 }
 
+interface Project {
+  id: string;
+  name: string;
+  domain: string | null;
+}
+
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Overview' },
   { href: '/dashboard/projects', icon: Folder, label: 'Projects' },
@@ -27,6 +33,8 @@ const navItems = [
   { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 
+const projectColors = ['#ff003d', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+
 export default function DashboardLayout({
   children,
 }: {
@@ -35,6 +43,7 @@ export default function DashboardLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -48,8 +57,23 @@ export default function DashboardLayout({
     }
 
     setUser(JSON.parse(storedUser));
+    fetchProjects(token);
     setLoading(false);
   }, [router]);
+
+  const fetchProjects = async (token: string) => {
+    try {
+      const response = await fetch('/api/dashboard/projects', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setProjects(data.projects?.slice(0, 5) || []);
+      }
+    } catch (error) {
+      console.error('Failed to fetch projects:', error);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -148,21 +172,27 @@ export default function DashboardLayout({
           <div className="pt-6">
             <div className="flex items-center justify-between px-3 mb-3">
               <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Projects</span>
-              <button className="p-1 hover:bg-gray-100 rounded transition-colors">
+              <Link href="/dashboard/projects" className="p-1 hover:bg-gray-100 rounded transition-colors">
                 <Plus className="h-3 w-3 text-gray-400" />
-              </button>
+              </Link>
             </div>
             <div className="space-y-1">
-              <div className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer transition-colors group">
-                <div className="w-2 h-2 rounded-full bg-[#ff003d]" />
-                <span className="flex-1 truncate">My Website</span>
-                <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-              <div className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer transition-colors group">
-                <div className="w-2 h-2 rounded-full bg-blue-500" />
-                <span className="flex-1 truncate">SaaS App</span>
-                <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
+              {projects.length > 0 ? (
+                projects.map((project, i) => (
+                  <div key={project.id} className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer transition-colors group">
+                    <div 
+                      className="w-2 h-2 rounded-full" 
+                      style={{ backgroundColor: projectColors[i % projectColors.length] }} 
+                    />
+                    <span className="flex-1 truncate">{project.name}</span>
+                    <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                ))
+              ) : (
+                <div className="px-3 py-2 text-sm text-gray-400">
+                  No projects yet
+                </div>
+              )}
             </div>
           </div>
         </nav>

@@ -28,11 +28,16 @@ export async function connectToMongoDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000, // 5 second timeout
+      connectTimeoutMS: 5000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       console.log('✅ MongoDB connected');
       return mongoose;
+    }).catch((err) => {
+      console.error('❌ MongoDB connection failed:', err.message);
+      throw err;
     });
   }
 

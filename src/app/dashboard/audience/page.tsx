@@ -1,84 +1,151 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { 
-  Users, Monitor, Smartphone, Tablet, Globe, ArrowUpRight, ArrowDownRight
+  Users, Monitor, Smartphone, Tablet, Loader2
 } from 'lucide-react';
 import { 
-  PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip
+  PieChart, Pie, Cell, ResponsiveContainer
 } from 'recharts';
 
-const browsers = [
-  { name: 'Chrome', value: 62, color: '#ff003d' },
-  { name: 'Safari', value: 21, color: '#ff4d8d' },
-  { name: 'Firefox', value: 10, color: '#ffb3c9' },
-  { name: 'Edge', value: 5, color: '#e5e5e5' },
-  { name: 'Other', value: 2, color: '#f4f4f5' },
-];
+interface DashboardData {
+  stats: {
+    topBrowsers: Array<{ name: string; count: number }>;
+    devices: { desktop: number; mobile: number; tablet: number };
+  } | null;
+}
 
-const operatingSystems = [
-  { name: 'Windows', value: 45 },
-  { name: 'macOS', value: 28 },
-  { name: 'iOS', value: 15 },
-  { name: 'Android', value: 10 },
-  { name: 'Linux', value: 2 },
-];
-
-const devices = [
-  { name: 'Desktop', value: 58, icon: Monitor, change: 5.2 },
-  { name: 'Mobile', value: 35, icon: Smartphone, change: -2.1 },
-  { name: 'Tablet', value: 7, icon: Tablet, change: 12.3 },
-];
-
-const screenSizes = [
-  { size: '1920x1080', count: 4520, percentage: 32 },
-  { size: '1366x768', count: 2840, percentage: 20 },
-  { size: '390x844', count: 2100, percentage: 15 },
-  { size: '1536x864', count: 1680, percentage: 12 },
-  { size: '414x896', count: 1400, percentage: 10 },
-];
-
-const languages = [
-  { lang: 'English', code: 'en', count: 8420, percentage: 59 },
-  { lang: 'Hindi', code: 'hi', count: 2100, percentage: 15 },
-  { lang: 'Spanish', code: 'es', count: 1260, percentage: 9 },
-  { lang: 'German', code: 'de', count: 980, percentage: 7 },
-  { lang: 'French', code: 'fr', count: 700, percentage: 5 },
-];
+const browserColors = ['#ff003d', '#ff4d8d', '#ffb3c9', '#e5e5e5', '#f4f4f5'];
 
 export default function AudiencePage() {
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/dashboard?days=30', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const result = await response.json();
+        setData(result);
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-[#ff003d]" />
+      </div>
+    );
+  }
+
+  const hasData = data?.stats && (data.stats.topBrowsers.length > 0 || 
+    data.stats.devices.desktop > 0 || data.stats.devices.mobile > 0);
+
+  // No data state
+  if (!hasData) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold font-heading mb-1">Audience</h1>
+          <p className="text-gray-500 text-sm">Understand who visits your website</p>
+        </div>
+
+        {/* Empty Device Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { name: 'Desktop', icon: Monitor },
+            { name: 'Mobile', icon: Smartphone },
+            { name: 'Tablet', icon: Tablet },
+          ].map((device, i) => (
+            <Card key={i} className="border-gray-200">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-gray-100 flex items-center justify-center">
+                    <device.icon className="h-7 w-7 text-gray-300" />
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold font-heading text-gray-200">0%</div>
+                    <div className="text-sm text-gray-400">{device.name}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        <Card className="border-dashed border-2 border-gray-300">
+          <CardContent className="py-16 text-center">
+            <Users className="h-16 w-16 text-gray-200 mx-auto mb-4" />
+            <h3 className="text-xl font-bold font-heading mb-2">No Audience Data Yet</h3>
+            <p className="text-gray-500 max-w-md mx-auto">
+              Start tracking visitors to see device, browser, and audience insights.
+              Add the tracking script to your website to begin collecting data.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Has real data
+  const browsers = data!.stats!.topBrowsers;
+  const devices = data!.stats!.devices;
+  const totalBrowsers = browsers.reduce((a, b) => a + b.count, 0);
+
+  const deviceList = [
+    { name: 'Desktop', value: devices.desktop, icon: Monitor },
+    { name: 'Mobile', value: devices.mobile, icon: Smartphone },
+    { name: 'Tablet', value: devices.tablet, icon: Tablet },
+  ];
+
+  const browserData = browsers.map((b, i) => ({
+    name: b.name,
+    value: Math.round((b.count / totalBrowsers) * 100),
+    count: b.count,
+    color: browserColors[i % browserColors.length]
+  }));
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold font-heading mb-1">Audience</h1>
-        <p className="text-gray-500 text-sm">Understand who visits your website</p>
+        <p className="text-gray-500 text-sm">Understand who visits your website • Last 30 days</p>
       </div>
 
       {/* Device Breakdown */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {devices.map((device, i) => (
+        {deviceList.map((device, i) => (
           <Card key={i} className="border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all group cursor-default">
             <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gray-100 group-hover:bg-[#ff003d]/10 flex items-center justify-center transition-colors">
-                    <device.icon className="h-7 w-7 text-gray-600 group-hover:text-[#ff003d] transition-colors" />
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">{device.value}%</div>
-                    <div className="text-sm text-gray-500">{device.name}</div>
-                  </div>
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-gray-100 group-hover:bg-[#ff003d]/10 flex items-center justify-center transition-colors">
+                  <device.icon className="h-7 w-7 text-gray-600 group-hover:text-[#ff003d] transition-colors" />
                 </div>
-                <div className={`flex items-center text-sm font-medium ${device.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {device.change >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
-                  {Math.abs(device.change)}%
+                <div className="flex-1">
+                  <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
+                    {device.value}%
+                  </div>
+                  <div className="text-sm text-gray-500">{device.name}</div>
                 </div>
               </div>
               <div className="mt-4 h-2 bg-gray-100 overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d] transition-all group-hover:opacity-80"
+                  className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
                   style={{ width: `${device.value}%` }}
                 />
               </div>
@@ -87,130 +154,50 @@ export default function AudiencePage() {
         ))}
       </div>
 
-      {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Browsers */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
-            <CardTitle className="font-heading text-lg">Browsers</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-8">
-              <div className="w-40 h-40">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={browsers}
-                      innerRadius={45}
-                      outerRadius={70}
-                      paddingAngle={2}
-                      dataKey="value"
-                    >
-                      {browsers.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="flex-1 space-y-3">
-                {browsers.map((browser, i) => (
-                  <div key={i} className="flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 transition-transform group-hover:scale-125" style={{ backgroundColor: browser.color }} />
-                      <span className="text-sm group-hover:font-medium transition-all">{browser.name}</span>
-                    </div>
-                    <span className="font-bold text-sm">{browser.value}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Operating Systems */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
-            <CardTitle className="font-heading text-lg">Operating Systems</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div className="h-52">
+      {/* Browsers */}
+      <Card className="border-gray-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-gray-100">
+          <CardTitle className="font-heading text-lg">Browsers</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="flex items-center gap-8">
+            <div className="w-40 h-40">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={operatingSystems} layout="vertical">
-                  <XAxis type="number" hide />
-                  <YAxis type="category" dataKey="name" width={80} fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#fff', 
-                      border: '1px solid #e5e5e5',
-                      borderRadius: '0px'
-                    }}
-                  />
-                  <Bar dataKey="value" fill="#ff003d" radius={0} />
-                </BarChart>
+                <PieChart>
+                  <Pie
+                    data={browserData}
+                    innerRadius={45}
+                    outerRadius={70}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {browserData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
               </ResponsiveContainer>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Screen Sizes & Languages */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Screen Sizes */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
-            <CardTitle className="font-heading text-lg">Screen Sizes</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              {screenSizes.map((screen, i) => (
-                <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-default">
-                  <div className="flex items-center gap-3">
-                    <code className="text-sm bg-gray-100 px-2 py-1 group-hover:bg-gray-200 transition-colors">{screen.size}</code>
+            <div className="flex-1 space-y-3">
+              {browserData.map((browser, i) => (
+                <div key={i} className="flex items-center justify-between group cursor-default">
+                  <div className="flex items-center gap-2">
+                    <span 
+                      className="w-3 h-3 transition-transform group-hover:scale-125" 
+                      style={{ backgroundColor: browser.color }} 
+                    />
+                    <span className="text-sm group-hover:font-medium transition-all">{browser.name}</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-24 h-2 bg-gray-100 overflow-hidden">
-                      <div 
-                        className="h-full bg-[#ff003d]"
-                        style={{ width: `${screen.percentage}%` }}
-                      />
-                    </div>
-                    <span className="font-bold text-sm w-14 text-right">{screen.count.toLocaleString()}</span>
+                  <div className="text-right">
+                    <span className="font-bold text-sm">{browser.value}%</span>
+                    <span className="text-xs text-gray-400 ml-2">({browser.count.toLocaleString()})</span>
                   </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Languages */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
-            <CardTitle className="font-heading text-lg">Languages</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              {languages.map((lang, i) => (
-                <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-default">
-                  <div className="flex items-center gap-3">
-                    <Badge variant="outline" className="rounded-none text-xs uppercase">{lang.code}</Badge>
-                    <span className="font-medium text-sm">{lang.lang}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-24 h-2 bg-gray-100 overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
-                        style={{ width: `${lang.percentage}%` }}
-                      />
-                    </div>
-                    <span className="font-bold text-sm w-14 text-right">{lang.count.toLocaleString()}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

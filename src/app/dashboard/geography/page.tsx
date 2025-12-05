@@ -1,184 +1,194 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
-  Globe, TrendingUp, TrendingDown, MapPin
+  Globe, MapPin, Loader2
 } from 'lucide-react';
 
-const countries = [
-  { country: 'United States', code: 'US', flag: '🇺🇸', views: 15200, visitors: 8400, percentage: 32, change: 12.5 },
-  { country: 'India', code: 'IN', flag: '🇮🇳', views: 12800, visitors: 7200, percentage: 27, change: 8.3 },
-  { country: 'United Kingdom', code: 'GB', flag: '🇬🇧', views: 6400, visitors: 3800, percentage: 14, change: -2.1 },
-  { country: 'Germany', code: 'DE', flag: '🇩🇪', views: 4800, visitors: 2900, percentage: 10, change: 5.6 },
-  { country: 'Canada', code: 'CA', flag: '🇨🇦', views: 3200, visitors: 1800, percentage: 7, change: 15.2 },
-  { country: 'France', code: 'FR', flag: '🇫🇷', views: 2400, visitors: 1400, percentage: 5, change: -1.3 },
-  { country: 'Australia', code: 'AU', flag: '🇦🇺', views: 1600, visitors: 900, percentage: 3, change: 22.1 },
-  { country: 'Japan', code: 'JP', flag: '🇯🇵', views: 940, visitors: 520, percentage: 2, change: 8.7 },
-];
+interface DashboardData {
+  stats: {
+    topCountries: Array<{ name: string; count: number }>;
+  } | null;
+}
 
-const cities = [
-  { city: 'New York', country: '🇺🇸', views: 4200, percentage: 28 },
-  { city: 'Mumbai', country: '🇮🇳', views: 3800, percentage: 25 },
-  { city: 'London', country: '🇬🇧', views: 2900, percentage: 19 },
-  { city: 'Berlin', country: '🇩🇪', views: 1800, percentage: 12 },
-  { city: 'Toronto', country: '🇨🇦', views: 1200, percentage: 8 },
-  { city: 'Paris', country: '🇫🇷', views: 900, percentage: 6 },
-];
+const countryFlags: Record<string, string> = {
+  'US': '🇺🇸', 'IN': '🇮🇳', 'UK': '🇬🇧', 'GB': '🇬🇧', 'DE': '🇩🇪', 
+  'CA': '🇨🇦', 'FR': '🇫🇷', 'AU': '🇦🇺', 'JP': '🇯🇵', 'BR': '🇧🇷',
+  'ES': '🇪🇸', 'IT': '🇮🇹', 'NL': '🇳🇱', 'SE': '🇸🇪', 'NO': '🇳🇴',
+  'RU': '🇷🇺', 'CN': '🇨🇳', 'KR': '🇰🇷', 'MX': '🇲🇽', 'SG': '🇸🇬'
+};
+
+const countryNames: Record<string, string> = {
+  'US': 'United States', 'IN': 'India', 'UK': 'United Kingdom', 'GB': 'United Kingdom',
+  'DE': 'Germany', 'CA': 'Canada', 'FR': 'France', 'AU': 'Australia',
+  'JP': 'Japan', 'BR': 'Brazil', 'ES': 'Spain', 'IT': 'Italy',
+  'NL': 'Netherlands', 'SE': 'Sweden', 'NO': 'Norway', 'RU': 'Russia',
+  'CN': 'China', 'KR': 'South Korea', 'MX': 'Mexico', 'SG': 'Singapore'
+};
 
 export default function GeographyPage() {
-  const totalViews = countries.reduce((sum, c) => sum + c.views, 0);
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/dashboard?days=30', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const result = await response.json();
+        setData(result);
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-[#ff003d]" />
+      </div>
+    );
+  }
+
+  const countries = data?.stats?.topCountries || [];
+  const totalViews = countries.reduce((a, b) => a + b.count, 0);
+  const hasData = countries.length > 0;
+
+  // No data state
+  if (!hasData) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold font-heading mb-1">Geography</h1>
+          <p className="text-gray-500 text-sm">See where your visitors come from</p>
+        </div>
+
+        {/* Empty Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {['Countries', 'Total Views', 'Top Country', 'Time Range'].map((label, i) => (
+            <Card key={i} className="border-gray-200">
+              <CardContent className="pt-6 text-center">
+                <div className="text-3xl font-bold font-heading text-gray-200">
+                  {i === 3 ? '30d' : '—'}
+                </div>
+                <div className="text-sm text-gray-400">{label}</div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Empty State */}
+        <Card className="border-dashed border-2 border-gray-300">
+          <CardContent className="py-16 text-center">
+            <Globe className="h-16 w-16 text-gray-200 mx-auto mb-4" />
+            <h3 className="text-xl font-bold font-heading mb-2">No Geographic Data Yet</h3>
+            <p className="text-gray-500 max-w-md mx-auto">
+              Start tracking visitors to see where they come from.
+              Geographic data is collected automatically with each page view.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Has real data
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold font-heading mb-1">Geography</h1>
-        <p className="text-gray-500 text-sm">See where your visitors come from</p>
+        <p className="text-gray-500 text-sm">Where your visitors come from • Last 30 days</p>
       </div>
-
-      {/* World Map Placeholder */}
-      <Card className="border-gray-200 overflow-hidden">
-        <CardContent className="p-0">
-          <div className="relative bg-gray-50 h-[300px] flex items-center justify-center">
-            {/* Simple World Map Illustration */}
-            <div className="absolute inset-0 opacity-20">
-              <svg viewBox="0 0 1000 500" className="w-full h-full">
-                <ellipse cx="500" cy="250" rx="450" ry="200" fill="none" stroke="#d4d4d8" strokeWidth="1" />
-                <ellipse cx="500" cy="250" rx="300" ry="150" fill="none" stroke="#d4d4d8" strokeWidth="1" />
-                <ellipse cx="500" cy="250" rx="150" ry="100" fill="none" stroke="#d4d4d8" strokeWidth="1" />
-                <line x1="50" y1="250" x2="950" y2="250" stroke="#d4d4d8" strokeWidth="1" />
-                <line x1="500" y1="50" x2="500" y2="450" stroke="#d4d4d8" strokeWidth="1" />
-              </svg>
-            </div>
-            
-            {/* Country Dots */}
-            <div className="absolute" style={{ top: '35%', left: '22%' }}>
-              <div className="w-6 h-6 bg-[#ff003d] rounded-full animate-ping opacity-30 absolute" />
-              <div className="w-4 h-4 bg-[#ff003d] rounded-full relative flex items-center justify-center text-white text-[8px] font-bold">
-                US
-              </div>
-            </div>
-            <div className="absolute" style={{ top: '40%', left: '65%' }}>
-              <div className="w-5 h-5 bg-[#ff4d8d] rounded-full animate-ping opacity-30 absolute" />
-              <div className="w-3 h-3 bg-[#ff4d8d] rounded-full relative" />
-            </div>
-            <div className="absolute" style={{ top: '30%', left: '48%' }}>
-              <div className="w-4 h-4 bg-[#ff003d]/70 rounded-full animate-ping opacity-30 absolute" />
-              <div className="w-2.5 h-2.5 bg-[#ff003d]/70 rounded-full relative" />
-            </div>
-            
-            <div className="relative z-10 text-center">
-              <Globe className="h-16 w-16 mx-auto mb-3 text-gray-300" />
-              <p className="text-sm text-gray-500">Interactive map coming soon</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
-            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">{countries.length}</div>
+            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
+              {countries.length}
+            </div>
             <div className="text-sm text-gray-500">Countries</div>
           </CardContent>
         </Card>
         <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
-            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">{cities.length}</div>
-            <div className="text-sm text-gray-500">Cities</div>
-          </CardContent>
-        </Card>
-        <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
-          <CardContent className="pt-6 text-center">
-            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">{(totalViews / 1000).toFixed(1)}k</div>
+            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
+              {totalViews >= 1000 ? `${(totalViews / 1000).toFixed(1)}k` : totalViews}
+            </div>
             <div className="text-sm text-gray-500">Total Views</div>
           </CardContent>
         </Card>
         <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
-            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">🇺🇸</div>
+            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
+              {countryFlags[countries[0]?.name] || '🌍'}
+            </div>
             <div className="text-sm text-gray-500">Top Country</div>
+          </CardContent>
+        </Card>
+        <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
+              30d
+            </div>
+            <div className="text-sm text-gray-500">Time Range</div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Countries */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
-            <div className="flex items-center justify-between">
-              <CardTitle className="font-heading text-lg">Countries</CardTitle>
-              <Globe className="h-4 w-4 text-gray-400" />
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              {countries.map((country, i) => (
+      {/* Countries List */}
+      <Card className="border-gray-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-gray-100">
+          <div className="flex items-center justify-between">
+            <CardTitle className="font-heading text-lg">Countries</CardTitle>
+            <Globe className="h-4 w-4 text-gray-400" />
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y divide-gray-100">
+            {countries.map((country, i) => {
+              const percentage = Math.round((country.count / totalViews) * 100);
+              return (
                 <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-default">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl group-hover:scale-110 transition-transform">{country.flag}</span>
+                    <span className="text-2xl group-hover:scale-110 transition-transform">
+                      {countryFlags[country.name] || '🌍'}
+                    </span>
                     <div>
-                      <div className="font-medium text-sm">{country.country}</div>
-                      <div className="text-xs text-gray-400">{country.visitors.toLocaleString()} visitors</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className={`flex items-center text-xs font-medium ${country.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {country.change >= 0 ? <TrendingUp className="h-3 w-3 mr-0.5" /> : <TrendingDown className="h-3 w-3 mr-0.5" />}
-                      {Math.abs(country.change)}%
-                    </div>
-                    <div className="w-20 h-2 bg-gray-100 overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
-                        style={{ width: `${country.percentage}%` }}
-                      />
-                    </div>
-                    <span className="font-bold text-sm w-14 text-right">{country.views.toLocaleString()}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Cities */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
-            <div className="flex items-center justify-between">
-              <CardTitle className="font-heading text-lg">Top Cities</CardTitle>
-              <MapPin className="h-4 w-4 text-gray-400" />
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-gray-100">
-              {cities.map((city, i) => (
-                <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-default">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-100 group-hover:bg-[#ff003d]/10 flex items-center justify-center text-sm transition-colors">
-                      {i + 1}
-                    </div>
-                    <div>
-                      <div className="font-medium text-sm">{city.city}</div>
-                      <div className="text-xs text-gray-400">{city.country}</div>
+                      <div className="font-medium text-sm">
+                        {countryNames[country.name] || country.name}
+                      </div>
+                      <div className="text-xs text-gray-400">{percentage}% of total</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-24 h-2 bg-gray-100 overflow-hidden">
                       <div 
-                        className="h-full bg-[#ff003d]"
-                        style={{ width: `${city.percentage}%` }}
+                        className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
+                        style={{ width: `${percentage}%` }}
                       />
                     </div>
-                    <span className="font-bold text-sm w-14 text-right">{city.views.toLocaleString()}</span>
+                    <span className="font-bold text-sm w-16 text-right">
+                      {country.count.toLocaleString()}
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

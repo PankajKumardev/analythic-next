@@ -8,24 +8,61 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { 
   User, Mail, Key, Globe, Bell, Shield, Trash2, 
-  Copy, Check, RefreshCw, Eye, EyeOff, Save, AlertTriangle
+  Copy, Check, RefreshCw, Eye, EyeOff, Save, AlertTriangle, Loader2
 } from 'lucide-react';
 
+interface UserData {
+  id: string;
+  name: string | null;
+  email: string;
+}
+
+interface ProjectData {
+  id: string;
+  name: string;
+  domain: string | null;
+  writeKey: string;
+}
+
 export default function SettingsPage() {
-  const [user, setUser] = useState({ name: '', email: '' });
+  const [user, setUser] = useState<UserData | null>(null);
+  const [projects, setProjects] = useState<ProjectData[]>([]);
+  const [formData, setFormData] = useState({ name: '', email: '' });
   const [copied, setCopied] = useState(false);
   const [showKey, setShowKey] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const parsed = JSON.parse(storedUser);
+      setUser(parsed);
+      setFormData({ name: parsed.name || '', email: parsed.email || '' });
     }
+    fetchProjects();
   }, []);
 
-  const apiKey = 'ak_live_7f3x9m2k4n1p5q8r';
+  const fetchProjects = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/dashboard/projects', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setProjects(data.projects || []);
+      }
+    } catch (error) {
+      console.error('Failed to fetch projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const apiKey = projects[0]?.writeKey || 'No project created';
 
   const copyKey = () => {
     navigator.clipboard.writeText(apiKey);
@@ -33,14 +70,29 @@ export default function SettingsPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setSaving(true);
-    setTimeout(() => {
-      setSaving(false);
+    try {
+      // Update local storage for now
+      const updatedUser = { ...user, name: formData.name, email: formData.email };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser as UserData);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
-    }, 1000);
+    } catch (error) {
+      console.error('Save error:', error);
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="w-10 h-10 border-2 border-[#ff003d] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -61,7 +113,7 @@ export default function SettingsPage() {
         <CardContent className="pt-6 space-y-6">
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 bg-gradient-to-br from-[#ff003d] to-[#ff4d8d] text-white flex items-center justify-center font-bold text-2xl">
-              {user.name?.[0] || user.email?.[0] || 'A'}
+              {formData.name?.[0]?.toUpperCase() || formData.email?.[0]?.toUpperCase() || 'A'}
             </div>
             <div>
               <Button variant="outline" className="rounded-none text-sm">
@@ -76,8 +128,8 @@ export default function SettingsPage() {
               <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
               <Input 
                 id="name"
-                value={user.name || ''} 
-                onChange={(e) => setUser({ ...user, name: e.target.value })}
+                value={formData.name} 
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="rounded-none border-gray-200 focus:border-[#ff003d]"
               />
             </div>
@@ -86,8 +138,8 @@ export default function SettingsPage() {
               <Input 
                 id="email"
                 type="email"
-                value={user.email || ''} 
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                value={formData.email} 
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="rounded-none border-gray-200 focus:border-[#ff003d]"
               />
             </div>
@@ -100,7 +152,7 @@ export default function SettingsPage() {
           >
             {saving ? (
               <>
-                <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 Saving...
               </>
             ) : saved ? (
@@ -132,7 +184,7 @@ export default function SettingsPage() {
           <div className="flex items-center gap-2">
             <div className="flex-1 flex items-center gap-2 bg-gray-50 border border-gray-200 p-3">
               <code className="flex-1 text-sm font-mono">
-                {showKey ? apiKey : '••••••••••••••••••••'}
+                {showKey ? apiKey : '••••••••-••••-••••-••••-••••••••••••'}
               </code>
               <Button 
                 variant="ghost" 
@@ -152,40 +204,42 @@ export default function SettingsPage() {
             </Button>
           </div>
 
-          <Button variant="outline" className="rounded-none text-sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Regenerate Key
-          </Button>
+          <p className="text-xs text-gray-400">
+            This key is tied to your first project. Create multiple projects for separate tracking keys.
+          </p>
         </CardContent>
       </Card>
 
       {/* Website Settings */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <Globe className="h-5 w-5 text-gray-400" />
-            <CardTitle className="font-heading text-lg">Website</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6 space-y-4">
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Website URL</Label>
-            <Input 
-              value="https://mywebsite.com" 
-              className="rounded-none border-gray-200 focus:border-[#ff003d]"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Allowed Domains</Label>
-            <Input 
-              value="mywebsite.com, www.mywebsite.com" 
-              className="rounded-none border-gray-200 focus:border-[#ff003d]"
-            />
-            <p className="text-xs text-gray-500">Comma-separated list of domains that can send events</p>
-          </div>
-        </CardContent>
-      </Card>
+      {projects.length > 0 && (
+        <Card className="border-gray-200 hover:shadow-lg transition-all">
+          <CardHeader className="border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <Globe className="h-5 w-5 text-gray-400" />
+              <CardTitle className="font-heading text-lg">Website</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-6 space-y-4">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Project Name</Label>
+              <Input 
+                value={projects[0]?.name || ''} 
+                className="rounded-none border-gray-200 focus:border-[#ff003d]"
+                readOnly
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Website Domain</Label>
+              <Input 
+                value={projects[0]?.domain || 'Not set'} 
+                className="rounded-none border-gray-200 focus:border-[#ff003d]"
+                readOnly
+              />
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Notifications */}
       <Card className="border-gray-200 hover:shadow-lg transition-all">
@@ -197,9 +251,9 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent className="pt-6 space-y-4">
           {[
-            { label: 'Weekly report', desc: 'Get a summary of your analytics every Monday' },
-            { label: 'Traffic spikes', desc: 'Notify when traffic increases significantly' },
-            { label: 'Quota alerts', desc: 'Warn when approaching event limits' },
+            { label: 'Weekly report', desc: 'Get a summary of your analytics every Monday', defaultChecked: true },
+            { label: 'Traffic spikes', desc: 'Notify when traffic increases significantly', defaultChecked: false },
+            { label: 'Quota alerts', desc: 'Warn when approaching event limits', defaultChecked: true },
           ].map((item, i) => (
             <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
               <div>
@@ -207,7 +261,7 @@ export default function SettingsPage() {
                 <div className="text-xs text-gray-500">{item.desc}</div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked={i === 0} />
+                <input type="checkbox" className="sr-only peer" defaultChecked={item.defaultChecked} />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#ff003d]/20 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:h-5 after:w-5 after:transition-all peer-checked:bg-[#ff003d]"></div>
               </label>
             </div>
@@ -238,10 +292,10 @@ export default function SettingsPage() {
           <div className="mb-4">
             <div className="flex items-center justify-between text-sm mb-2">
               <span>Events used this month</span>
-              <span className="font-medium">2,847 / 5,000</span>
+              <span className="font-medium">0 / 5,000</span>
             </div>
             <div className="h-2 bg-gray-200 overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]" style={{ width: '57%' }} />
+              <div className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]" style={{ width: '0%' }} />
             </div>
           </div>
 
