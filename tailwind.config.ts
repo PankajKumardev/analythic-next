@@ -18,12 +18,6 @@ const config: Config = {
         sans: ["var(--font-inter)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
-      borderRadius: {
-        lg: "0px",
-        md: "0px",
-        sm: "0px",
-        full: "9999px",
-      },
       colors: {
         background: "#ffffff",
         foreground: "#0a0a0a",

@@ -58,22 +58,21 @@ export default function LoginPage() {
     <div className="min-h-screen bg-white relative overflow-hidden flex">
       
       {/* Left Side - Form */}
-      <div className="flex-1 flex flex-col justify-center px-8 lg:px-16 xl:px-24 relative z-10">
+      <div className="flex-1 flex flex-col justify-center px-8 lg:px-16 xl:px-24 py-12 relative z-10 overflow-y-auto">
         <div className="w-full max-w-md mx-auto">
           
           {/* Logo */}
-          <Link href="/" className="inline-block mb-12">
-            <div className="font-heading font-bold text-2xl tracking-tighter">
-              ANALYTHIC<span className="text-[#ff003d]">.</span>
-            </div>
+          <Link href="/" className="inline-flex items-center gap-2 mb-12">
+            <span className="font-bold text-2xl tracking-tighter">ANALYTHIC</span>
+            <div className="w-2 h-2 rounded-full bg-pulse animate-pulse"></div>
           </Link>
 
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold font-heading mb-3">
+            <h1 className="text-4xl font-bold tracking-tight mb-3">
               {mode === 'login' ? 'Welcome back' : 'Create your account'}
             </h1>
-            <p className="text-gray-500 text-lg">
+            <p className="text-subtle text-lg">
               {mode === 'login' 
                 ? 'Enter your credentials to access your dashboard.' 
                 : 'Start your 14-day free trial. No credit card required.'}
@@ -82,7 +81,7 @@ export default function LoginPage() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-sm">
+            <div className="mb-6 p-4 bg-pulse/5 border border-pulse/20 text-pulse text-sm rounded-lg">
               {error}
             </div>
           )}
@@ -91,16 +90,16 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {mode === 'register' && (
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="name" className="text-sm font-medium text-ink">
                   Full Name
                 </Label>
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-subtle" />
                   <Input
                     id="name"
                     type="text"
                     placeholder="John Doe"
-                    className="h-12 pl-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-[#ff003d] focus:ring-[#ff003d]/20 rounded-none"
+                    className="h-12 pl-12 bg-surface border-neutral-200 focus:bg-white focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -109,16 +108,16 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="email" className="text-sm font-medium text-ink">
                 Email Address
               </Label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-subtle" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="you@company.com"
-                  className="h-12 pl-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-[#ff003d] focus:ring-[#ff003d]/20 rounded-none"
+                  className="h-12 pl-12 bg-surface border-neutral-200 focus:bg-white focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -128,22 +127,22 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="password" className="text-sm font-medium text-ink">
                   Password
                 </Label>
                 {mode === 'login' && (
-                  <Link href="/forgot-password" className="text-sm text-[#ff003d] hover:underline">
+                  <Link href="/forgot-password" className="text-sm text-pulse hover:underline font-medium">
                     Forgot password?
                   </Link>
                 )}
               </div>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-subtle" />
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••••••"
-                  className="h-12 pl-12 pr-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-[#ff003d] focus:ring-[#ff003d]/20 rounded-none"
+                  className="h-12 pl-12 pr-12 bg-surface border-neutral-200 focus:bg-white focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -151,20 +150,20 @@ export default function LoginPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-subtle hover:text-ink transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
               {mode === 'register' && (
-                <p className="text-xs text-gray-500">Must be at least 8 characters</p>
+                <p className="text-xs text-subtle">Must be at least 8 characters</p>
               )}
             </div>
 
             <Button 
               type="submit" 
-              className="w-full h-12 bg-black hover:bg-gray-800 text-white font-medium text-base rounded-none"
+              className="w-full h-12 bg-pulse hover:bg-[#d90034] text-white font-medium text-base rounded-full shadow-soft-red transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -184,10 +183,10 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
+              <div className="w-full border-t border-neutral-200" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-4 text-gray-500">Or continue with</span>
+              <span className="bg-white px-4 text-subtle font-mono text-xs uppercase tracking-wider">Or continue with</span>
             </div>
           </div>
 
@@ -195,7 +194,7 @@ export default function LoginPage() {
           <Button 
             type="button"
             variant="outline"
-            className="w-full h-12 border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-none"
+            className="w-full h-12 border-neutral-200 hover:border-ink hover:bg-surface text-ink font-medium rounded-full transition-all hover:-translate-y-0.5"
             onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
           >
             <Github className="mr-2 h-5 w-5" />
@@ -203,12 +202,12 @@ export default function LoginPage() {
           </Button>
 
           {/* Toggle Mode */}
-          <p className="mt-8 text-center text-gray-600">
+          <p className="mt-8 text-center text-subtle">
             {mode === 'login' ? "Don't have an account?" : "Already have an account?"}
             <button 
               type="button"
               onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-              className="ml-1 text-[#ff003d] font-medium hover:underline"
+              className="ml-1 text-pulse font-medium hover:underline"
             >
               {mode === 'login' ? 'Sign up free' : 'Sign in'}
             </button>

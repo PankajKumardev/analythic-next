@@ -1,5 +1,6 @@
 import React from 'react';
 import { Github, Star, GitFork, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 const OpenSource = () => {
   return (
@@ -17,14 +18,14 @@ const OpenSource = () => {
             Analythic is completely open source. Inspect the code, contribute to the roadmap, or self-host it on your own infrastructure for total control.
           </p>
           <div className="flex gap-4">
-            <a 
-              href="https://github.com/PankajKumardev/analythic-next"
+            <Link
+              href={"https://github.com/PankajKumardev/analythic-next"}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-white text-ink font-bold rounded-lg hover:bg-neutral-200 transition-colors flex items-center gap-2"
             >
               <Github size={20} /> View Repo
-            </a>
+            </Link>
             <a 
               href="#"
               className="px-6 py-3 border border-neutral-700 text-white font-bold rounded-lg hover:border-white transition-colors flex items-center gap-2"
