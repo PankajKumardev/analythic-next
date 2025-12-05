@@ -7,7 +7,6 @@ import {
   MessageSquare, HelpCircle, Minus, Plus, Database, Code2
 } from 'lucide-react';
 
-// TRUTHFUL FEATURES - Only what we actually have
 const features = [
   {
     icon: Shield,
