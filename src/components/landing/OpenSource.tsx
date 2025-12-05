@@ -26,17 +26,17 @@ const OpenSource = () => {
             >
               <Github size={20} /> View Repo
             </Link>
-            <a 
+            <Link 
               href="#"
               className="px-6 py-3 border border-neutral-700 text-white font-bold rounded-lg hover:border-white transition-colors flex items-center gap-2"
             >
               Read Docs
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="flex-1 w-full max-w-md">
-           <a 
+           <Link 
              href="https://github.com/PankajKumardev/analythic-next"
              target="_blank"
              rel="noopener noreferrer"
@@ -73,7 +73,7 @@ const OpenSource = () => {
                     </div>
                 </div>
             </div>
-           </a>
+           </Link>
         </div>
       </div>
     </section>

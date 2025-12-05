@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Github, ArrowRight, TrendingUp, Users, Globe } from 'lucide-react';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
@@ -31,7 +32,7 @@ const Hero = () => {
           <span className="w-1.5 h-1.5 rounded-full bg-pulse animate-pulse" />
           Open Source v1.0
           <span className="text-gray-300">•</span>
-          <a href="https://github.com/PankajKumardev/analythic-next" className="hover:text-ink hover:underline">GitHub</a>
+          <Link href="https://github.com/PankajKumardev/analythic-next" target="_blank" className="hover:text-ink hover:underline">GitHub</Link>
         </motion.div>
 
         <motion.h1 
@@ -63,7 +64,7 @@ const Hero = () => {
           <button className="h-12 px-8 rounded-full bg-pulse text-white font-medium hover:bg-[#d90034] transition-all hover:shadow-soft-red hover:-translate-y-0.5 active:translate-y-0">
             Start Free
           </button>
-          <a 
+          <Link 
             href="https://github.com/PankajKumardev/analythic-next" 
             target="_blank"
             rel="noopener noreferrer"
@@ -71,7 +72,7 @@ const Hero = () => {
           >
             <Github className="w-4 h-4" />
             Star on GitHub
-          </a>
+          </Link>
         </motion.div>
 
         {/* Dashboard Visual */}

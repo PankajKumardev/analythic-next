@@ -35,15 +35,15 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a 
+            <Link 
               key={link.name} 
               href={link.href} 
               className="text-sm font-medium text-neutral-600 hover:text-ink transition-colors"
             >
               {link.name}
-            </a>
+            </Link>
           ))}
-          <a
+          <Link
             href="https://github.com/PankajKumardev/analythic-next"
             target="_blank"
             rel="noopener noreferrer"
@@ -51,7 +51,7 @@ const Navbar = () => {
           >
             <Github size={16} />
             Star on GitHub
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -74,16 +74,16 @@ const Navbar = () => {
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
-                <a 
+                <Link 
                   key={link.name} 
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className="text-lg font-medium text-ink"
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <a
+              <Link
                 href="https://github.com/PankajKumardev/analythic-next"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -91,7 +91,7 @@ const Navbar = () => {
               >
                 <Github size={18} />
                 Star on GitHub
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

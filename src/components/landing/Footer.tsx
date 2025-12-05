@@ -19,18 +19,18 @@ const Footer = () => {
             <div>
                 <h4 className="font-bold mb-4 text-sm uppercase tracking-wider">Product</h4>
                 <ul className="space-y-3 text-sm text-neutral-500">
-                    <li><a href="#" className="hover:text-pulse transition-colors">Features</a></li>
-                    <li><a href="#" className="hover:text-pulse transition-colors">Integration</a></li>
-                    <li><a href="#" className="hover:text-pulse transition-colors">Pricing</a></li>
-                    <li><a href="#" className="hover:text-pulse transition-colors">Changelog</a></li>
+                    <li><Link href="#features" className="hover:text-pulse transition-colors">Features</Link></li>
+                    <li><Link href="#integration" className="hover:text-pulse transition-colors">Integration</Link></li>
+                    <li><Link href="#pricing" className="hover:text-pulse transition-colors">Pricing</Link></li>
+                    <li><Link href="#" className="hover:text-pulse transition-colors">Changelog</Link></li>
                 </ul>
             </div>
             <div>
                 <h4 className="font-bold mb-4 text-sm uppercase tracking-wider">Community</h4>
                 <ul className="space-y-3 text-sm text-neutral-500">
-                    <li><a href="https://github.com/PankajKumardev/analythic-next" className="hover:text-pulse transition-colors">GitHub</a></li>
-                    <li><a href="#" className="hover:text-pulse transition-colors">Twitter</a></li>
-                    <li><a href="#" className="hover:text-pulse transition-colors">Discord</a></li>
+                    <li><Link href="https://github.com/PankajKumardev/analythic-next" target="_blank" className="hover:text-pulse transition-colors">GitHub</Link></li>
+                    <li><Link href="#" className="hover:text-pulse transition-colors">Twitter</Link></li>
+                    <li><Link href="#" className="hover:text-pulse transition-colors">Discord</Link></li>
                 </ul>
             </div>
         </div>
