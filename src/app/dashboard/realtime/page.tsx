@@ -31,7 +31,7 @@ export default function RealtimePage() {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-2xl font-bold font-heading">Real-time</h1>
-            <Badge className="bg-yellow-100 text-yellow-700 rounded-lg text-xs">
+            <Badge className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 rounded-lg text-xs">
               Coming Soon
             </Badge>
           </div>
@@ -40,9 +40,9 @@ export default function RealtimePage() {
       </div>
 
       {/* Feature Preview */}
-      <Card className="border-[#ff003d]/20 bg-gradient-to-br from-[#ff003d]/5 to-white">
+      <Card className="border-[#ff003d]/20 bg-gradient-to-br from-[#ff003d]/5 to-transparent">
         <CardContent className="py-16 text-center">
-          <div className="w-20 h-20 bg-[#ff003d]/10 flex items-center justify-center mx-auto mb-6">
+          <div className="w-20 h-20 bg-[#ff003d]/10 rounded-xl flex items-center justify-center mx-auto mb-6">
             <Zap className="h-10 w-10 text-[#ff003d]" />
           </div>
           
@@ -53,18 +53,18 @@ export default function RealtimePage() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
-            <div className="p-4 bg-white border border-neutral-100 rounded-lg">
-              <Activity className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+            <div className="p-4 bg-background border border-border rounded-lg">
+              <Activity className="h-8 w-8 text-subtle mx-auto mb-3" />
               <h4 className="font-medium text-sm">Live Visitors</h4>
               <p className="text-xs text-subtle mt-1">See who's on your site right now</p>
             </div>
-            <div className="p-4 bg-white border border-neutral-100 rounded-lg">
-              <MapPin className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+            <div className="p-4 bg-background border border-border rounded-lg">
+              <MapPin className="h-8 w-8 text-subtle mx-auto mb-3" />
               <h4 className="font-medium text-sm">Live Locations</h4>
               <p className="text-xs text-subtle mt-1">Track visitor locations in real-time</p>
             </div>
-            <div className="p-4 bg-white border border-neutral-100 rounded-lg">
-              <Clock className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+            <div className="p-4 bg-background border border-border rounded-lg">
+              <Clock className="h-8 w-8 text-subtle mx-auto mb-3" />
               <h4 className="font-medium text-sm">Session Duration</h4>
               <p className="text-xs text-subtle mt-1">Monitor active sessions</p>
             </div>
@@ -74,21 +74,21 @@ export default function RealtimePage() {
 
       {/* Current Status */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="border-neutral-200">
+        <Card className="border-border">
           <CardContent className="pt-6 text-center">
-            <div className="text-4xl font-bold font-heading text-gray-200">—</div>
+            <div className="text-4xl font-bold font-heading text-subtle">—</div>
             <div className="text-sm text-subtle mt-2">Active Now</div>
           </CardContent>
         </Card>
-        <Card className="border-neutral-200">
+        <Card className="border-border">
           <CardContent className="pt-6 text-center">
-            <div className="text-4xl font-bold font-heading text-gray-200">—</div>
+            <div className="text-4xl font-bold font-heading text-subtle">—</div>
             <div className="text-sm text-subtle mt-2">Pages/min</div>
           </CardContent>
         </Card>
-        <Card className="border-neutral-200">
+        <Card className="border-border">
           <CardContent className="pt-6 text-center">
-            <div className="text-4xl font-bold font-heading text-gray-200">—</div>
+            <div className="text-4xl font-bold font-heading text-subtle">—</div>
             <div className="text-sm text-subtle mt-2">Avg Duration</div>
           </CardContent>
         </Card>
@@ -96,3 +96,6 @@ export default function RealtimePage() {
     </div>
   );
 }
+
+
+

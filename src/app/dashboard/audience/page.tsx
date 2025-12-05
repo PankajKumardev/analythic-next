@@ -70,14 +70,14 @@ export default function AudiencePage() {
             { name: 'Mobile', icon: Smartphone },
             { name: 'Tablet', icon: Tablet },
           ].map((device, i) => (
-            <Card key={i} className="border-neutral-200">
+            <Card key={i} className="border-border">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 bg-surface flex items-center justify-center">
-                    <device.icon className="h-7 w-7 text-gray-300" />
+                    <device.icon className="h-7 w-7 text-subtle" />
                   </div>
                   <div>
-                    <div className="text-3xl font-bold font-heading text-gray-200">0%</div>
+                    <div className="text-3xl font-bold font-heading text-subtle">0%</div>
                     <div className="text-sm text-subtle">{device.name}</div>
                   </div>
                 </div>
@@ -89,7 +89,7 @@ export default function AudiencePage() {
         {/* Empty State */}
         <Card className="border-dashed border-2 border-gray-300">
           <CardContent className="py-16 text-center">
-            <Users className="h-16 w-16 text-gray-200 mx-auto mb-4" />
+            <Users className="h-16 w-16 text-subtle mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">No Audience Data Yet</h3>
             <p className="text-subtle max-w-md mx-auto">
               Start tracking visitors to see device, browser, and audience insights.
@@ -130,7 +130,7 @@ export default function AudiencePage() {
       {/* Device Breakdown */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {deviceList.map((device, i) => (
-          <Card key={i} className="border-neutral-200 hover:border-gray-300 hover:shadow-lg transition-all group cursor-default">
+          <Card key={i} className="border-border hover:border-gray-300 hover:shadow-lg transition-all group cursor-default">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-surface group-hover:bg-[#ff003d]/10 flex items-center justify-center transition-colors">
@@ -155,8 +155,8 @@ export default function AudiencePage() {
       </div>
 
       {/* Browsers */}
-      <Card className="border-neutral-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-neutral-100">
+      <Card className="border-border hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-border">
           <CardTitle className="font-heading text-lg">Browsers</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
@@ -201,3 +201,6 @@ export default function AudiencePage() {
     </div>
   );
 }
+
+
+

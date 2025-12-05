@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 interface User {
   id: string;
@@ -83,7 +84,7 @@ export default function DashboardLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-pulse border-t-transparent rounded-full animate-spin" />
           <p className="text-subtle text-sm font-mono">Loading...</p>
@@ -97,20 +98,20 @@ export default function DashboardLayout({
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-ink/20 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+          className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-40 lg:hidden transition-opacity"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar - Fixed with its own scroll */}
       <aside className={`
-        fixed lg:fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-neutral-100
+        fixed lg:fixed inset-y-0 left-0 z-50 w-64 bg-background border-r border-border
         transform transition-transform duration-300 ease-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         flex flex-col h-screen
       `}>
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-neutral-100">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-border">
           <Link href="/" className="inline-flex items-center gap-2 hover:opacity-70 transition-opacity">
             <span className="font-bold text-lg tracking-tighter">ANALYTHIC</span>
             <div className="w-2 h-2 rounded-full bg-pulse animate-pulse"></div>
@@ -133,14 +134,14 @@ export default function DashboardLayout({
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 group relative ${
                   isActive
-                    ? 'bg-ink text-white'
-                    : 'text-subtle hover:bg-surface hover:text-ink'
+                    ? 'bg-pulse text-white'
+                    : 'text-subtle hover:bg-surface hover:text-foreground'
                 }`}
               >
-                <item.icon className={`h-4 w-4 transition-transform group-hover:scale-110 ${isActive ? '' : 'group-hover:text-pulse'}`} />
+                <item.icon className={`h-4 w-4 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'group-hover:text-pulse'}`} />
                 {item.label}
                 {isActive && (
-                  <div className="absolute right-3 w-1.5 h-1.5 bg-pulse rounded-full" />
+                  <div className="absolute right-3 w-1.5 h-1.5 bg-white rounded-full" />
                 )}
               </Link>
             );
@@ -158,11 +159,11 @@ export default function DashboardLayout({
                   href={item.href}
                   className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 group ${
                     isActive
-                      ? 'bg-ink text-white'
-                      : 'text-subtle hover:bg-surface hover:text-ink'
+                      ? 'bg-pulse text-white'
+                      : 'text-subtle hover:bg-surface hover:text-foreground'
                   }`}
                 >
-                  <item.icon className={`h-4 w-4 transition-transform group-hover:scale-110 ${isActive ? '' : 'group-hover:text-pulse'}`} />
+                  <item.icon className={`h-4 w-4 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'group-hover:text-pulse'}`} />
                   {item.label}
                 </Link>
               );
@@ -199,21 +200,21 @@ export default function DashboardLayout({
         </nav>
 
         {/* Upgrade Banner */}
-        <div className="p-4 border-t border-neutral-100">
-          <div className="p-4 bg-gradient-to-br from-pulse/5 to-glow/5 border border-pulse/10 rounded-xl">
+        <div className="p-4 border-t border-border">
+          <div className="p-4 bg-gradient-to-br from-pulse/10 to-glow/10 border border-pulse/20 rounded-xl">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="h-4 w-4 text-pulse" />
               <span className="text-sm font-medium">Upgrade to Pro</span>
             </div>
             <p className="text-xs text-subtle mb-3">Get unlimited events and more features</p>
-            <Button className="w-full h-8 bg-ink hover:bg-neutral-800 text-white text-xs rounded-full transition-all hover:scale-[1.02]">
+            <Button className="w-full h-8 bg-pulse hover:bg-pulse/90 text-white text-xs rounded-full transition-all hover:scale-[1.02]">
               Upgrade Now
             </Button>
           </div>
         </div>
 
         {/* User */}
-        <div className="p-4 border-t border-neutral-100">
+        <div className="p-4 border-t border-border">
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 bg-gradient-to-br from-pulse to-glow text-white rounded-full flex items-center justify-center font-bold text-sm transition-transform hover:scale-105">
               {user?.name?.[0] || user?.email?.[0] || 'A'}
@@ -224,7 +225,7 @@ export default function DashboardLayout({
             </div>
             <button 
               onClick={handleLogout} 
-              className="p-2 text-subtle hover:text-ink hover:bg-surface rounded-lg transition-all"
+              className="p-2 text-subtle hover:text-foreground hover:bg-surface rounded-lg transition-all"
               title="Sign out"
             >
               <LogOut className="h-4 w-4" />
@@ -236,7 +237,7 @@ export default function DashboardLayout({
       {/* Main Content - Offset by sidebar width on desktop */}
       <div className="flex-1 flex flex-col min-w-0 lg:ml-64 h-screen">
         {/* Header - Fixed at top */}
-        <header className="h-16 bg-white border-b border-neutral-100 flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 bg-background border-b border-border flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-4">
             <button 
               className="lg:hidden p-2 text-subtle hover:bg-surface rounded-lg transition-colors"
@@ -250,20 +251,23 @@ export default function DashboardLayout({
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-subtle" />
               <Input 
                 placeholder="Search..." 
-                className="w-64 pl-10 h-9 bg-surface border-neutral-200 rounded-lg focus:border-pulse focus:ring-pulse/20 transition-all"
+                className="w-64 pl-10 h-9 bg-surface border-border rounded-lg focus:border-pulse focus:ring-pulse/20 transition-all"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
             {/* Date Range */}
-            <Button variant="outline" className="border-neutral-200 text-subtle rounded-lg h-9 hidden sm:flex hover:bg-surface hover:border-ink transition-all">
+            <Button variant="outline" className="border-border text-subtle rounded-lg h-9 hidden sm:flex hover:bg-surface hover:border-foreground transition-all">
               Last 7 days
               <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
             
             {/* Notifications */}
-            <button className="relative p-2 text-subtle hover:text-ink hover:bg-surface rounded-lg transition-all">
+            <button className="relative p-2 text-subtle hover:text-foreground hover:bg-surface rounded-lg transition-all">
               <Bell className="h-5 w-5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-pulse rounded-full animate-pulse" />
             </button>
@@ -286,3 +290,6 @@ export default function DashboardLayout({
     </div>
   );
 }
+
+
+

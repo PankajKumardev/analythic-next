@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Menu, X } from 'lucide-react';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +26,10 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md border-b border-neutral-100' : 'bg-transparent'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-background/80 backdrop-blur-md border-b border-border' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href="/" className="font-bold text-xl tracking-tighter">ANALYTHIC</Link>
+          <Link href="/" className="font-bold text-xl tracking-tighter text-foreground">ANALYTHIC</Link>
           <div className="w-2 h-2 rounded-full bg-pulse animate-pulse-fast"></div>
         </div>
 
@@ -38,16 +39,17 @@ const Navbar = () => {
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-sm font-medium text-neutral-600 hover:text-ink transition-colors"
+              className="text-sm font-medium text-subtle hover:text-foreground transition-colors"
             >
               {link.name}
             </Link>
           ))}
+          <ThemeToggle />
           <Link
             href="https://github.com/PankajKumardev/analythic-next"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold border border-neutral-200 rounded-lg hover:border-pulse hover:text-pulse transition-all"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold border border-border rounded-lg hover:border-pulse hover:text-pulse transition-all"
           >
             <Github size={16} />
             Star on GitHub
@@ -55,12 +57,15 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button 
-          className="md:hidden p-2"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button 
+            className="p-2"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
@@ -70,7 +75,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-neutral-100 overflow-hidden"
+            className="md:hidden bg-background border-b border-border overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
@@ -78,7 +83,7 @@ const Navbar = () => {
                   key={link.name} 
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium text-ink"
+                  className="text-lg font-medium text-foreground"
                 >
                   {link.name}
                 </Link>
@@ -87,7 +92,7 @@ const Navbar = () => {
                 href="https://github.com/PankajKumardev/analythic-next"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold bg-ink text-white rounded-lg"
+                className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold bg-foreground text-background rounded-lg"
               >
                 <Github size={18} />
                 Star on GitHub
@@ -101,3 +106,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

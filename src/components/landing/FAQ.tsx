@@ -27,7 +27,7 @@ const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-24 px-6 bg-surface border-t border-neutral-100">
+    <section id="faq" className="py-24 px-6 bg-surface border-t border-border">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl font-bold tracking-tight mb-12 text-center">Frequently asked questions</h2>
         
@@ -35,18 +35,18 @@ const FAQ = () => {
           {questions.map((q, index) => (
             <div 
               key={index} 
-              className="border border-neutral-200 rounded-lg bg-white overflow-hidden"
+              className="border border-border rounded-lg bg-background overflow-hidden"
             >
               <button
                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-neutral-50 transition-colors"
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-surface transition-colors"
               >
                 <span className="font-semibold text-lg">{q.question}</span>
                 <motion.div
                   animate={{ rotate: activeIndex === index ? 45 : 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Plus size={24} className={`transition-colors ${activeIndex === index ? 'text-pulse' : 'text-neutral-400'}`} />
+                  <Plus size={24} className={`transition-colors ${activeIndex === index ? 'text-pulse' : 'text-subtle'}`} />
                 </motion.div>
               </button>
               <AnimatePresence>
@@ -57,7 +57,7 @@ const FAQ = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="p-6 pt-0 text-neutral-500 leading-relaxed border-t border-neutral-100 mt-2">
+                    <div className="p-6 pt-0 text-subtle leading-relaxed border-t border-border mt-2">
                       {q.answer}
                     </div>
                   </motion.div>
@@ -72,3 +72,5 @@ const FAQ = () => {
 };
 
 export default FAQ;
+
+

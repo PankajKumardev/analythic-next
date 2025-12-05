@@ -19,20 +19,21 @@ const config: Config = {
         mono: ["var(--font-mono)", "monospace"],
       },
       colors: {
-        background: "#ffffff",
-        foreground: "#0a0a0a",
+        // Use CSS variables for dark mode support
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        surface: "hsl(var(--surface))",
+        ink: "hsl(var(--ink))",
+        subtle: "hsl(var(--subtle))",
         
-        // Landing page colors (from landing-page)
-        surface: "#FAFAFA",
-        ink: "#050505",
+        // Brand colors stay the same in both modes
         pulse: "#ff003d",
         glow: "#ff4d8d",
-        subtle: "#737373",
         'soft-red': 'rgba(255, 0, 61, 0.15)',
         
         card: {
-          DEFAULT: "#ffffff",
-          foreground: "#0a0a0a",
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
         
         primary: {
@@ -40,14 +41,14 @@ const config: Config = {
           foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#f4f4f5",
-          foreground: "#0a0a0a",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         muted: {
-          DEFAULT: "#f4f4f5",
-          foreground: "#737373",
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
-        border: "#e5e5e5",
+        border: "hsl(var(--border))",
         
         brand: {
           start: "#ff003d",
@@ -58,7 +59,7 @@ const config: Config = {
         'red-glow': 'radial-gradient(circle at center, #ff003d 0%, #ff4d8d 40%, transparent 70%)',
         'red-gradient': 'linear-gradient(135deg, #ff003d 0%, #ff4d8d 100%)',
         'glow-radial': 'radial-gradient(circle, rgba(255,0,61,0.08) 0%, rgba(255,255,255,0) 70%)',
-        'grid-pattern': 'linear-gradient(to right, #f5f5f5 1px, transparent 1px), linear-gradient(to bottom, #f5f5f5 1px, transparent 1px)',
+        'grid-pattern': 'linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)',
       },
       backgroundSize: {
         'grid-sm': '24px 24px',
@@ -76,4 +77,3 @@ const config: Config = {
   plugins: [require("tailwindcss-animate")],
 };
 export default config;
-

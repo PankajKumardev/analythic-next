@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const OpenSource = () => {
   return (
-    <section className="bg-ink text-white py-24 px-6 relative overflow-hidden">
+    <section className="bg-[#0a0a0a] text-white py-24 px-6 relative overflow-hidden">
         {/* Background Gradients */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-pulse opacity-10 blur-[100px] rounded-full pointer-events-none"></div>
 
@@ -22,13 +22,13 @@ const OpenSource = () => {
               href={"https://github.com/PankajKumardev/analythic-next"}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-white text-ink font-bold rounded-lg hover:bg-neutral-200 transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-neutral-200 transition-colors flex items-center gap-2"
             >
               <Github size={20} /> View Repo
             </Link>
             <Link 
               href="#"
-              className="px-6 py-3 border border-neutral-700 text-white font-bold rounded-lg hover:border-white transition-colors flex items-center gap-2"
+              className="px-6 py-3 border border-neutral-600 text-white font-bold rounded-lg hover:border-white transition-colors flex items-center gap-2"
             >
               Read Docs
             </Link>
@@ -42,7 +42,7 @@ const OpenSource = () => {
              rel="noopener noreferrer"
              className="block group"
            >
-            <div className="bg-[#0A0A0A] border border-neutral-800 rounded-xl p-6 hover:border-neutral-600 transition-all shadow-2xl">
+            <div className="bg-[#111] border border-neutral-800 rounded-xl p-6 hover:border-neutral-600 transition-all shadow-2xl">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
@@ -53,7 +53,7 @@ const OpenSource = () => {
                             <div className="text-xs text-neutral-500">Public</div>
                         </div>
                     </div>
-                    <ExternalLink size={18} className="text-neutral-600 group-hover:text-white transition-colors" />
+                    <ExternalLink size={18} className="text-neutral-500 group-hover:text-white transition-colors" />
                 </div>
                 <p className="text-neutral-400 text-sm mb-6 line-clamp-2">
                     Open source web analytics. Privacy-first, lightweight, and cookie-free. The alternative to Google Analytics you&apos;ve been looking for.
@@ -81,3 +81,5 @@ const OpenSource = () => {
 };
 
 export default OpenSource;
+
+

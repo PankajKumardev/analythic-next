@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const CTA = () => {
   return (
-    <section className="py-32 px-6 bg-[#050505] relative overflow-hidden">
+    <section className="py-32 px-6 bg-[#0a0a0a] relative overflow-hidden">
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -23,12 +23,12 @@ const CTA = () => {
                 Join the open web. Get lightweight, privacy-friendly analytics set up in less than 2 minutes.
             </p>
 
-            <button className="h-14 px-10 rounded-full bg-white text-ink font-bold text-lg hover:bg-neutral-200 transition-all flex items-center gap-2 mx-auto group">
+            <button className="h-14 px-10 rounded-full bg-white text-black font-bold text-lg hover:bg-neutral-200 transition-all flex items-center gap-2 mx-auto group">
                 Start for Free
-                <ArrowRight size={20} className="text-neutral-400 group-hover:translate-x-1 group-hover:text-ink transition-all" />
+                <ArrowRight size={20} className="text-neutral-500 group-hover:translate-x-1 group-hover:text-black transition-all" />
             </button>
             
-            <p className="mt-8 text-sm text-neutral-600 font-mono">
+            <p className="mt-8 text-sm text-neutral-500 font-mono">
                 Open Source • No Credit Card • Cancel Anytime
             </p>
         </motion.div>
@@ -38,3 +38,5 @@ const CTA = () => {
 };
 
 export default CTA;
+
+

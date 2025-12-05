@@ -76,9 +76,9 @@ export default function GeographyPage() {
         {/* Empty Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {['Countries', 'Total Views', 'Top Country', 'Time Range'].map((label, i) => (
-            <Card key={i} className="border-neutral-200">
+            <Card key={i} className="border-border">
               <CardContent className="pt-6 text-center">
-                <div className="text-3xl font-bold font-heading text-gray-200">
+                <div className="text-3xl font-bold font-heading text-subtle">
                   {i === 3 ? '30d' : '—'}
                 </div>
                 <div className="text-sm text-subtle">{label}</div>
@@ -90,7 +90,7 @@ export default function GeographyPage() {
         {/* Empty State */}
         <Card className="border-dashed border-2 border-gray-300">
           <CardContent className="py-16 text-center">
-            <Globe className="h-16 w-16 text-gray-200 mx-auto mb-4" />
+            <Globe className="h-16 w-16 text-subtle mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">No Geographic Data Yet</h3>
             <p className="text-subtle max-w-md mx-auto">
               Start tracking visitors to see where they come from.
@@ -113,7 +113,7 @@ export default function GeographyPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-border hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {countries.length}
@@ -121,7 +121,7 @@ export default function GeographyPage() {
             <div className="text-sm text-subtle">Countries</div>
           </CardContent>
         </Card>
-        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-border hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {totalViews >= 1000 ? `${(totalViews / 1000).toFixed(1)}k` : totalViews}
@@ -129,7 +129,7 @@ export default function GeographyPage() {
             <div className="text-sm text-subtle">Total Views</div>
           </CardContent>
         </Card>
-        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-border hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {countryFlags[countries[0]?.name] || '🌍'}
@@ -137,7 +137,7 @@ export default function GeographyPage() {
             <div className="text-sm text-subtle">Top Country</div>
           </CardContent>
         </Card>
-        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-border hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               30d
@@ -148,15 +148,15 @@ export default function GeographyPage() {
       </div>
 
       {/* Countries List */}
-      <Card className="border-neutral-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-neutral-100">
+      <Card className="border-border hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-border">
           <div className="flex items-center justify-between">
             <CardTitle className="font-heading text-lg">Countries</CardTitle>
             <Globe className="h-4 w-4 text-subtle" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-border">
             {countries.map((country, i) => {
               const percentage = Math.round((country.count / totalViews) * 100);
               return (
@@ -192,3 +192,6 @@ export default function GeographyPage() {
     </div>
   );
 }
+
+
+

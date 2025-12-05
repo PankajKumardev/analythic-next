@@ -7,21 +7,21 @@ const testimonials = [
     author: "Sarah J.",
     role: "Frontend Lead",
     company: "Vercel",
-    icon: <Terminal size={18} className="text-neutral-400" />
+    icon: <Terminal size={18} className="text-subtle" />
   },
   {
     quote: "We dropped Google Analytics for this. Our lighthouse score went from 82 to 99 immediately.",
     author: "David Chen",
     role: "CTO",
     company: "Startup Inc.",
-    icon: <Cpu size={18} className="text-neutral-400" />
+    icon: <Cpu size={18} className="text-subtle" />
   },
   {
     quote: "The only analytics tool I've used that actually respects user privacy by default. Integration took 30 seconds.",
     author: "Alex M.",
     role: "Indie Hacker",
     company: "ShipFast",
-    icon: <Code size={18} className="text-neutral-400" />
+    icon: <Code size={18} className="text-subtle" />
   }
 ];
 
@@ -32,11 +32,11 @@ const Testimonials = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
                 <h2 className="text-3xl font-bold tracking-tight mb-4">Devs are switching.</h2>
-                <p className="text-neutral-500">Join 4,000+ developers reclaiming their data.</p>
+                <p className="text-subtle">Join 4,000+ developers reclaiming their data.</p>
             </div>
             <div className="flex gap-2">
                 <div className="w-2 h-2 rounded-full bg-pulse animate-pulse"></div>
-                <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest">Live Feedback</span>
+                <span className="text-xs font-mono text-subtle uppercase tracking-widest">Live Feedback</span>
             </div>
         </div>
 
@@ -44,21 +44,21 @@ const Testimonials = () => {
           {testimonials.map((t, i) => (
             <div 
                 key={i} 
-                className="bg-white p-8 rounded-xl border border-neutral-200 hover:border-neutral-300 transition-all hover:shadow-sharp group"
+                className="bg-background p-8 rounded-xl border border-border hover:border-border transition-all hover:shadow-sharp group"
             >
               <div className="mb-6">
-                <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center border border-neutral-100 group-hover:border-neutral-200 transition-colors">
+                <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center border border-border group-hover:border-border transition-colors">
                     {t.icon}
                 </div>
               </div>
-              <p className="text-lg text-ink font-medium mb-6 leading-relaxed">&quot;{t.quote}&quot;</p>
-              <div className="flex items-center gap-3 border-t border-neutral-100 pt-4">
-                <div className="w-8 h-8 rounded-full bg-neutral-200 flex items-center justify-center text-xs font-bold text-neutral-600">
+              <p className="text-lg text-foreground font-medium mb-6 leading-relaxed">&quot;{t.quote}&quot;</p>
+              <div className="flex items-center gap-3 border-t border-border pt-4">
+                <div className="w-8 h-8 rounded-full bg-neutral-200 flex items-center justify-center text-xs font-bold text-subtle">
                     {t.author.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-ink">{t.author}</div>
-                  <div className="text-xs text-neutral-500">{t.role} @ {t.company}</div>
+                  <div className="font-bold text-sm text-foreground">{t.author}</div>
+                  <div className="text-xs text-subtle">{t.role} @ {t.company}</div>
                 </div>
               </div>
             </div>
@@ -70,3 +70,5 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+
+

@@ -15,9 +15,9 @@ const technologies = [
 
 const StackTicker = () => {
   return (
-    <section className="py-12 border-y border-neutral-100 bg-surface overflow-hidden">
+    <section className="py-12 border-y border-border bg-surface overflow-hidden">
         <div className="text-center mb-6">
-            <span className="text-xs font-mono uppercase text-neutral-400 tracking-widest">Powered by modern infrastructure</span>
+            <span className="text-xs font-mono uppercase text-subtle tracking-widest">Powered by modern infrastructure</span>
         </div>
       <div className="relative flex overflow-x-hidden group">
         <div className="animate-marquee whitespace-nowrap flex items-center">
@@ -46,3 +46,5 @@ const StackTicker = () => {
 };
 
 export default StackTicker;
+
+

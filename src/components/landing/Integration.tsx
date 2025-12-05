@@ -15,20 +15,20 @@ const Integration = () => {
   };
 
   return (
-    <section id="integration" className="py-24 px-6 bg-surface border-y border-neutral-100">
+    <section id="integration" className="py-24 px-6 bg-surface border-y border-border">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
         
         {/* Left Content */}
         <div className="flex-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-neutral-200 mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-background border border-border mb-6 shadow-sm">
             <Terminal size={14} className="text-pulse" />
-            <span className="text-xs font-mono font-medium text-neutral-600">Dev Experience</span>
+            <span className="text-xs font-mono font-medium text-subtle">Dev Experience</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tight mb-6">
             Drop in a single <br />
             line of code.
           </h2>
-          <p className="text-neutral-500 text-lg mb-8">
+          <p className="text-subtle text-lg mb-8">
             Works with Next.js, React, Vue, Svelte, or plain HTML. No complex setup. No heavy dependencies.
           </p>
           <div className="flex flex-col gap-4">
@@ -60,7 +60,7 @@ const Integration = () => {
                 <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
                 <div className="w-3 h-3 rounded-full bg-green-500/50" />
               </div>
-              <span className="text-xs text-neutral-500 font-mono">layout.tsx</span>
+              <span className="text-xs text-subtle font-mono">layout.tsx</span>
             </div>
             <div className="p-6 overflow-x-auto relative group">
               <button 
@@ -76,15 +76,15 @@ const Integration = () => {
                   {'\n\n'}
                   <span className="text-purple-400">export default function</span> <span className="text-blue-400">RootLayout</span>({'{'} children {'}'}) {'{'}
                   {'\n'}  <span className="text-purple-400">return</span> (
-                  {'\n'}    <span className="text-neutral-500">&lt;</span><span className="text-red-400">html</span> <span className="text-yellow-400">lang</span>=<span className="text-green-400">&quot;en&quot;</span><span className="text-neutral-500">&gt;</span>
-                  {'\n'}      <span className="text-neutral-500">&lt;</span><span className="text-red-400">body</span><span className="text-neutral-500">&gt;</span>
+                  {'\n'}    <span className="text-subtle">&lt;</span><span className="text-red-400">html</span> <span className="text-yellow-400">lang</span>=<span className="text-green-400">&quot;en&quot;</span><span className="text-subtle">&gt;</span>
+                  {'\n'}      <span className="text-subtle">&lt;</span><span className="text-red-400">body</span><span className="text-subtle">&gt;</span>
                   {'\n'}        {'{'}children{'}'}
-                  {'\n'}        <span className="text-neutral-500">&lt;</span><span className="text-yellow-400">Script</span> 
+                  {'\n'}        <span className="text-subtle">&lt;</span><span className="text-yellow-400">Script</span> 
                   {'\n'}          <span className="text-yellow-400">src</span>=<span className="text-green-400">&quot;https://analythic.com/tracker.js&quot;</span>
                   {'\n'}          <span className="text-yellow-400">data-website-id</span>=<span className="text-green-400">&quot;...&quot;</span> 
-                  {'\n'}        <span className="text-neutral-500">/&gt;</span>
-                  {'\n'}      <span className="text-neutral-500">&lt;/</span><span className="text-red-400">body</span><span className="text-neutral-500">&gt;</span>
-                  {'\n'}    <span className="text-neutral-500">&lt;/</span><span className="text-red-400">html</span><span className="text-neutral-500">&gt;</span>
+                  {'\n'}        <span className="text-subtle">/&gt;</span>
+                  {'\n'}      <span className="text-subtle">&lt;/</span><span className="text-red-400">body</span><span className="text-subtle">&gt;</span>
+                  {'\n'}    <span className="text-subtle">&lt;/</span><span className="text-red-400">html</span><span className="text-subtle">&gt;</span>
                   {'\n'}  );
                   {'\n'}{'}'}
                 </code>
@@ -99,3 +99,5 @@ const Integration = () => {
 };
 
 export default Integration;
+
+

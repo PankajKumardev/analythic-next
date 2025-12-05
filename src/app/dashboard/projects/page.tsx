@@ -145,7 +145,7 @@ export default function ProjectsPage() {
           <p className="text-subtle text-sm">Manage your tracked websites and applications</p>
         </div>
         <Button 
-          className="bg-black hover:bg-neutral-800 text-white rounded-lg transition-all hover:scale-[1.02]"
+          className="bg-foreground hover:bg-foreground/90 text-background rounded-lg transition-all hover:scale-[1.02]"
           onClick={() => setShowNewProject(true)}
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -155,10 +155,10 @@ export default function ProjectsPage() {
 
       {/* Error Message */}
       {error && (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="border-red-500/30 bg-red-500/10">
           <CardContent className="py-4 flex items-center gap-3">
             <AlertCircle className="h-5 w-5 text-red-500" />
-            <span className="text-red-700">{error}</span>
+            <span className="text-red-500">{error}</span>
             <Button 
               variant="ghost" 
               size="sm" 
@@ -180,13 +180,13 @@ export default function ProjectsPage() {
                 placeholder="Project name" 
                 value={newProject.name}
                 onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
-                className="flex-1 rounded-lg border-neutral-200 focus:border-[#ff003d]"
+                className="flex-1 rounded-lg border-border focus:border-[#ff003d]"
               />
               <Input 
                 placeholder="Website URL (optional)" 
                 value={newProject.domain}
                 onChange={(e) => setNewProject({ ...newProject, domain: e.target.value })}
-                className="flex-1 rounded-lg border-neutral-200 focus:border-[#ff003d]"
+                className="flex-1 rounded-lg border-border focus:border-[#ff003d]"
               />
               <div className="flex gap-2">
                 <Button 
@@ -217,7 +217,7 @@ export default function ProjectsPage() {
         {projects.map((project, index) => (
           <Card 
             key={project.id} 
-            className="border-neutral-200 hover:border-neutral-300 hover:shadow-xl transition-all duration-300 group"
+            className="border-border hover:border-border hover:shadow-xl transition-all duration-300 group"
           >
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
@@ -237,13 +237,13 @@ export default function ProjectsPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Badge className="rounded-lg text-xs bg-green-100 text-green-700">
+                  <Badge className="rounded-lg text-xs bg-green-500/20 text-green-500">
                     active
                   </Badge>
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
+                    className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-500 hover:bg-red-500/200/10"
                     onClick={() => deleteProject(project.id)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -253,7 +253,7 @@ export default function ProjectsPage() {
             </CardHeader>
             <CardContent>
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 py-4 border-y border-neutral-100 my-4">
+              <div className="grid grid-cols-3 gap-4 py-4 border-y border-border my-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold font-heading">
                     {project.stats.views >= 1000 
@@ -312,7 +312,7 @@ export default function ProjectsPage() {
 
         {/* Add New Project Card */}
         <Card 
-          className="border-dashed border-2 border-neutral-200 hover:border-[#ff003d]/50 transition-all duration-300 cursor-pointer group"
+          className="border-dashed border-2 border-border hover:border-[#ff003d]/50 transition-all duration-300 cursor-pointer group"
           onClick={() => setShowNewProject(true)}
         >
           <CardContent className="h-full flex flex-col items-center justify-center py-12">
@@ -327,9 +327,9 @@ export default function ProjectsPage() {
 
       {/* Empty State */}
       {projects.length === 0 && !showNewProject && (
-        <Card className="border-dashed border-2 border-neutral-300">
+        <Card className="border-dashed border-2 border-border">
           <CardContent className="py-16 text-center">
-            <BarChart3 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+            <BarChart3 className="h-16 w-16 text-subtle mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">No Projects Yet</h3>
             <p className="text-subtle mb-6">Create your first project to start tracking analytics.</p>
             <Button 
@@ -345,3 +345,6 @@ export default function ProjectsPage() {
     </div>
   );
 }
+
+
+

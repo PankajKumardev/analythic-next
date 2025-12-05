@@ -27,12 +27,12 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-gray-100 text-xs font-medium text-subtle mb-8 hover:border-pulse/30 transition-colors cursor-default"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border text-xs font-medium text-subtle mb-8 hover:border-pulse/30 transition-colors cursor-default"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-pulse animate-pulse" />
           Open Source v1.0
-          <span className="text-gray-300">•</span>
-          <Link href="https://github.com/PankajKumardev/analythic-next" target="_blank" className="hover:text-ink hover:underline">GitHub</Link>
+          <span className="text-subtle">•</span>
+          <Link href="https://github.com/PankajKumardev/analythic-next" target="_blank" className="hover:text-foreground hover:underline">GitHub</Link>
         </motion.div>
 
         <motion.h1 
@@ -68,7 +68,7 @@ const Hero = () => {
             href="https://github.com/PankajKumardev/analythic-next" 
             target="_blank"
             rel="noopener noreferrer"
-            className="h-12 px-8 rounded-full bg-white border border-gray-200 text-ink font-medium hover:border-ink transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
+            className="h-12 px-8 rounded-full bg-background border border-border text-foreground font-medium hover:border-foreground transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2"
           >
             <Github className="w-4 h-4" />
             Star on GitHub
@@ -83,17 +83,17 @@ const Hero = () => {
           className="relative max-w-5xl mx-auto"
         >
           <div className="absolute inset-0 bg-pulse blur-[100px] opacity-10" />
-          <div className="relative bg-white rounded-2xl border border-gray-100 shadow-2xl overflow-hidden p-2 md:p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="relative bg-background rounded-2xl border border-border shadow-2xl overflow-hidden p-2 md:p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             
             {/* Main Chart */}
-            <div className="md:col-span-2 bg-surface rounded-xl p-6 border border-gray-100 flex flex-col h-[300px]">
+            <div className="md:col-span-2 bg-surface rounded-xl p-6 border border-border flex flex-col h-[300px]">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-sm font-medium text-subtle">Total Visitors</h3>
                   <p className="text-2xl font-bold font-mono mt-1">124,592</p>
                 </div>
                 <div className="flex gap-2">
-                  <span className="px-2 py-1 bg-white rounded text-xs font-medium border border-gray-100 text-ink">30d</span>
+                  <span className="px-2 py-1 bg-background rounded text-xs font-medium border border-border text-foreground">30d</span>
                 </div>
               </div>
               <div className="flex-1 w-full min-h-0">
@@ -125,36 +125,36 @@ const Hero = () => {
 
             {/* Side Stats */}
             <div className="flex flex-col gap-4">
-              <div className="flex-1 bg-surface rounded-xl p-5 border border-gray-100 hover:border-gray-200 transition-colors">
+              <div className="flex-1 bg-surface rounded-xl p-5 border border-border hover:border-border transition-colors">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-white rounded-lg shadow-sm">
+                  <div className="p-2 bg-background rounded-lg shadow-sm">
                     <TrendingUp className="w-4 h-4 text-pulse" />
                   </div>
                   <span className="text-sm font-medium text-subtle">Bounce Rate</span>
                 </div>
                 <p className="text-2xl font-bold font-mono">12.5%</p>
                 <div className="mt-2 text-xs text-green-600 font-medium flex items-center">
-                  ↓ 2.1% <span className="text-gray-400 font-normal ml-1">vs last week</span>
+                  ↓ 2.1% <span className="text-subtle font-normal ml-1">vs last week</span>
                 </div>
               </div>
 
-              <div className="flex-1 bg-surface rounded-xl p-5 border border-gray-100 hover:border-gray-200 transition-colors">
+              <div className="flex-1 bg-surface rounded-xl p-5 border border-border hover:border-border transition-colors">
                 <div className="flex items-center gap-3 mb-3">
-                   <div className="p-2 bg-white rounded-lg shadow-sm">
-                    <Globe className="w-4 h-4 text-ink" />
+                   <div className="p-2 bg-background rounded-lg shadow-sm">
+                    <Globe className="w-4 h-4 text-foreground" />
                   </div>
                   <span className="text-sm font-medium text-subtle">Top Source</span>
                 </div>
                 <p className="text-lg font-bold font-mono truncate">twitter.com</p>
-                <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                  <div className="bg-ink h-full rounded-full" style={{ width: '65%' }}></div>
+                <div className="mt-2 w-full bg-border rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-foreground h-full rounded-full" style={{ width: '65%' }}></div>
                 </div>
               </div>
 
-               <div className="flex-1 bg-surface rounded-xl p-5 border border-gray-100 hover:border-gray-200 transition-colors">
+               <div className="flex-1 bg-surface rounded-xl p-5 border border-border hover:border-border transition-colors">
                 <div className="flex items-center gap-3 mb-3">
-                   <div className="p-2 bg-white rounded-lg shadow-sm">
-                    <Users className="w-4 h-4 text-ink" />
+                   <div className="p-2 bg-background rounded-lg shadow-sm">
+                    <Users className="w-4 h-4 text-foreground" />
                   </div>
                   <span className="text-sm font-medium text-subtle">Live Now</span>
                 </div>
@@ -173,3 +173,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+

@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Github, ArrowRight, Mail, Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -55,7 +56,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden flex">
+    <div className="min-h-screen bg-background relative overflow-hidden flex">
+      
+      {/* Theme Toggle - Fixed position */}
+      <div className="absolute top-4 right-4 z-20">
+        <ThemeToggle />
+      </div>
       
       {/* Left Side - Form */}
       <div className="flex-1 flex flex-col justify-center px-8 lg:px-16 xl:px-24 py-12 relative z-10 overflow-y-auto">
@@ -63,7 +69,7 @@ export default function LoginPage() {
           
           {/* Logo */}
           <Link href="/" className="inline-flex items-center gap-2 mb-12">
-            <span className="font-bold text-2xl tracking-tighter">ANALYTHIC</span>
+            <span className="font-bold text-2xl tracking-tighter text-foreground">ANALYTHIC</span>
             <div className="w-2 h-2 rounded-full bg-pulse animate-pulse"></div>
           </Link>
 
@@ -90,7 +96,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {mode === 'register' && (
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-ink">
+                <Label htmlFor="name" className="text-sm font-medium text-foreground">
                   Full Name
                 </Label>
                 <div className="relative">
@@ -99,7 +105,7 @@ export default function LoginPage() {
                     id="name"
                     type="text"
                     placeholder="John Doe"
-                    className="h-12 pl-12 bg-surface border-neutral-200 focus:bg-white focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
+                    className="h-12 pl-12 bg-surface border-neutral-200 focus:bg-background focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -108,7 +114,7 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-ink">
+              <Label htmlFor="email" className="text-sm font-medium text-foreground">
                 Email Address
               </Label>
               <div className="relative">
@@ -117,7 +123,7 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   placeholder="you@company.com"
-                  className="h-12 pl-12 bg-surface border-neutral-200 focus:bg-white focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
+                  className="h-12 pl-12 bg-surface border-neutral-200 focus:bg-background focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -127,7 +133,7 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm font-medium text-ink">
+                <Label htmlFor="password" className="text-sm font-medium text-foreground">
                   Password
                 </Label>
                 {mode === 'login' && (
@@ -142,7 +148,7 @@ export default function LoginPage() {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••••••"
-                  className="h-12 pl-12 pr-12 bg-surface border-neutral-200 focus:bg-white focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
+                  className="h-12 pl-12 pr-12 bg-surface border-neutral-200 focus:bg-background focus:border-pulse focus:ring-pulse/20 rounded-lg transition-all"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -150,7 +156,7 @@ export default function LoginPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-subtle hover:text-ink transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-subtle hover:text-foreground transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -186,7 +192,7 @@ export default function LoginPage() {
               <div className="w-full border-t border-neutral-200" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-4 text-subtle font-mono text-xs uppercase tracking-wider">Or continue with</span>
+              <span className="bg-background px-4 text-subtle font-mono text-xs uppercase tracking-wider">Or continue with</span>
             </div>
           </div>
 
@@ -194,7 +200,7 @@ export default function LoginPage() {
           <Button 
             type="button"
             variant="outline"
-            className="w-full h-12 border-neutral-200 hover:border-ink hover:bg-surface text-ink font-medium rounded-full transition-all hover:-translate-y-0.5"
+            className="w-full h-12 border-neutral-200 hover:border-foreground hover:bg-surface text-foreground font-medium rounded-full transition-all hover:-translate-y-0.5"
             onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
           >
             <Github className="mr-2 h-5 w-5" />
@@ -216,7 +222,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side - Visual */}
-      <div className="hidden lg:flex flex-1 bg-gray-50 items-center justify-center relative overflow-hidden">
+      <div className="hidden lg:flex flex-1 bg-surface items-center justify-center relative overflow-hidden">
         {/* Giant Glowing Orb */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-red-glow opacity-30 blur-[80px] pointer-events-none" />
         
@@ -226,10 +232,10 @@ export default function LoginPage() {
             <div className="w-48 h-48 rounded-full bg-gradient-to-br from-[#ff003d] to-[#ff4d8d] flex items-center justify-center shadow-2xl shadow-[#ff003d]/30 mx-auto">
               <span className="text-white text-5xl font-light tracking-tighter font-heading">Aa</span>
             </div>
-            <div className="absolute -right-4 top-2 bg-white border border-gray-100 px-3 py-2 shadow-lg text-xs font-medium">
+            <div className="absolute -right-4 top-2 bg-background border border-border px-3 py-2 shadow-lg text-xs font-medium">
               Privacy-First
             </div>
-            <div className="absolute -left-4 bottom-4 bg-white border border-gray-100 px-3 py-2 shadow-lg text-xs font-medium">
+            <div className="absolute -left-4 bottom-4 bg-background border border-border px-3 py-2 shadow-lg text-xs font-medium">
               Zero Cookies
             </div>
           </div>
@@ -240,7 +246,7 @@ export default function LoginPage() {
               modern teams
             </span>
           </h2>
-          <p className="text-gray-500 text-lg">
+          <p className="text-subtle text-lg">
             Join 10,000+ companies using Analythic to understand their users without compromising privacy.
           </p>
 
@@ -255,3 +261,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

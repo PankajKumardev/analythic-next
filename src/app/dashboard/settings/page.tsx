@@ -1,336 +1,336 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { 
-  User, Mail, Key, Globe, Bell, Shield, Trash2, 
-  Copy, Check, RefreshCw, Eye, EyeOff, Save, AlertTriangle, Loader2
+  User, 
+  Mail, 
+  Key, 
+  Shield, 
+  Bell, 
+  Trash2, 
+  Save,
+  Eye,
+  EyeOff,
+  Check,
+  Copy,
+  RefreshCw,
+  AlertCircle,
+  Zap
 } from 'lucide-react';
 
 interface UserData {
-  id: string;
-  name: string | null;
   email: string;
-}
-
-interface ProjectData {
-  id: string;
   name: string;
-  domain: string | null;
-  writeKey: string;
+  createdAt: string;
+  plan: string;
+  usage: {
+    events: number;
+    limit: number;
+  };
 }
 
 export default function SettingsPage() {
   const [user, setUser] = useState<UserData | null>(null);
-  const [projects, setProjects] = useState<ProjectData[]>([]);
-  const [formData, setFormData] = useState({ name: '', email: '' });
-  const [copied, setCopied] = useState(false);
-  const [showKey, setShowKey] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [name, setName] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [apiKey, setApiKey] = useState('');
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      setUser(parsed);
-      setFormData({ name: parsed.name || '', email: parsed.email || '' });
-    }
-    fetchProjects();
+    fetchUserData();
   }, []);
 
-  const fetchProjects = async () => {
+  const fetchUserData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/dashboard/projects', {
+      const response = await fetch('/api/user/profile', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
       if (response.ok) {
         const data = await response.json();
-        setProjects(data.projects || []);
+        setUser(data);
+        setName(data.name || '');
+        setApiKey(data.apiKey || 'ak_' + Math.random().toString(36).substring(2, 15));
       }
     } catch (error) {
-      console.error('Failed to fetch projects:', error);
+      console.error('Failed to fetch user data:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const apiKey = projects[0]?.writeKey || 'No project created';
-
-  const copyKey = () => {
-    navigator.clipboard.writeText(apiKey);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleSave = async () => {
+  const handleSaveProfile = async () => {
     setSaving(true);
     try {
-      // Update local storage for now
-      const updatedUser = { ...user, name: formData.name, email: formData.email };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      setUser(updatedUser as UserData);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
+      const token = localStorage.getItem('token');
+      await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name })
+      });
     } catch (error) {
-      console.error('Save error:', error);
+      console.error('Failed to save profile:', error);
     } finally {
       setSaving(false);
     }
   };
 
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    setSaving(true);
+    try {
+      const token = localStorage.getItem('token');
+      await fetch('/api/user/password', {
+        method: 'PUT',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      console.error('Failed to change password:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const copyApiKey = () => {
+    navigator.clipboard.writeText(apiKey);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const regenerateApiKey = () => {
+    setApiKey('ak_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-10 h-10 border-2 border-[#ff003d] border-t-transparent rounded-full animate-spin" />
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-2 border-[#ff003d] border-t-transparent rounded-full animate-spin" />
+          <p className="text-subtle text-sm">Loading settings...</p>
+        </div>
       </div>
     );
   }
 
+  const usagePercent = user?.usage ? (user.usage.events / user.usage.limit) * 100 : 0;
+
   return (
-    <div className="space-y-6 max-w-4xl">
-      {/* Header */}
+    <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold font-heading mb-1">Settings</h1>
         <p className="text-subtle text-sm">Manage your account and preferences</p>
       </div>
 
-      {/* Profile */}
-      <Card className="border-neutral-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-neutral-100">
-          <div className="flex items-center gap-3">
-            <User className="h-5 w-5 text-subtle" />
-            <CardTitle className="font-heading text-lg">Profile</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6 space-y-6">
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#ff003d] to-[#ff4d8d] text-white flex items-center justify-center font-bold text-2xl">
-              {formData.name?.[0]?.toUpperCase() || formData.email?.[0]?.toUpperCase() || 'A'}
-            </div>
-            <div>
-              <Button variant="outline" className="rounded-lg text-sm">
-                Change Avatar
-              </Button>
-              <p className="text-xs text-subtle mt-2">JPG, PNG or GIF. Max 2MB.</p>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Profile Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <User className="h-5 w-5 text-[#ff003d]" />
+              Profile
+            </CardTitle>
+            <CardDescription>Update your personal information</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+              <label className="text-sm font-medium text-foreground">Name</label>
               <Input 
-                id="name"
-                value={formData.name} 
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+              <label className="text-sm font-medium text-foreground">Email</label>
               <Input 
-                id="email"
-                type="email"
-                value={formData.email} 
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
+                value={user?.email || ''}
+                disabled
+                className="bg-surface opacity-60"
               />
+              <p className="text-xs text-subtle">Email cannot be changed</p>
             </div>
-          </div>
+            <Button 
+              onClick={handleSaveProfile}
+              disabled={saving}
+              className="w-full bg-[#ff003d] hover:bg-[#ff003d]/90 text-white"
+            >
+              {saving ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </CardContent>
+        </Card>
 
-          <Button 
-            className="bg-black hover:bg-neutral-800 text-white rounded-lg transition-all hover:scale-[1.02]"
-            onClick={handleSave}
-            disabled={saving}
-          >
-            {saving ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Saving...
-              </>
-            ) : saved ? (
-              <>
-                <Check className="h-4 w-4 mr-2" />
-                Saved!
-              </>
-            ) : (
-              <>
-                <Save className="h-4 w-4 mr-2" />
-                Save Changes
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
+        {/* Plan & Usage */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-[#ff003d]" />
+              Plan & Usage
+            </CardTitle>
+            <CardDescription>Your current plan and usage statistics</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-surface rounded-lg border border-border">
+              <div>
+                <p className="font-medium text-foreground">{user?.plan || 'Free'} Plan</p>
+                <p className="text-sm text-subtle">
+                  {user?.usage?.events?.toLocaleString() || 0} / {user?.usage?.limit?.toLocaleString() || '10,000'} events
+                </p>
+              </div>
+              <Badge className="bg-[#ff003d] text-white">Active</Badge>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-subtle">Usage</span>
+                <span className="text-foreground font-medium">{usagePercent.toFixed(1)}%</span>
+              </div>
+              <div className="h-2 bg-border rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-[#ff003d] rounded-full transition-all"
+                  style={{ width: `${Math.min(usagePercent, 100)}%` }}
+                />
+              </div>
+            </div>
+            <Button variant="outline" className="w-full border-border hover:bg-surface">
+              Upgrade Plan
+            </Button>
+          </CardContent>
+        </Card>
 
-      {/* API Key */}
-      <Card className="border-neutral-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-neutral-100">
-          <div className="flex items-center gap-3">
-            <Key className="h-5 w-5 text-subtle" />
-            <CardTitle className="font-heading text-lg">API Key</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6 space-y-4">
-          <p className="text-sm text-subtle">Use this key to authenticate your tracking script.</p>
-          
-          <div className="flex items-center gap-2">
-            <div className="flex-1 flex items-center gap-2 bg-surface border border-neutral-200 p-3">
-              <code className="flex-1 text-sm font-mono">
-                {showKey ? apiKey : '••••••••-••••-••••-••••-••••••••••••'}
-              </code>
+        {/* API Key */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Key className="h-5 w-5 text-[#ff003d]" />
+              API Key
+            </CardTitle>
+            <CardDescription>Use this key to authenticate API requests</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex gap-2">
+              <div className="flex-1 relative">
+                <Input 
+                  value={showApiKey ? apiKey : '•'.repeat(32)}
+                  readOnly
+                  className="pr-10 font-mono text-sm bg-surface"
+                />
+                <button
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-subtle hover:text-foreground"
+                >
+                  {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
               <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-8 w-8 p-0"
-                onClick={() => setShowKey(!showKey)}
+                variant="outline" 
+                size="icon"
+                onClick={copyApiKey}
+                className="border-border hover:bg-surface"
               >
-                {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>
             <Button 
               variant="outline" 
-              className="rounded-lg h-12"
-              onClick={copyKey}
+              onClick={regenerateApiKey}
+              className="w-full border-border hover:bg-surface"
             >
-              {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Regenerate Key
             </Button>
-          </div>
-
-          <p className="text-xs text-subtle">
-            This key is tied to your first project. Create multiple projects for separate tracking keys.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Website Settings */}
-      {projects.length > 0 && (
-        <Card className="border-neutral-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-neutral-100">
-            <div className="flex items-center gap-3">
-              <Globe className="h-5 w-5 text-subtle" />
-              <CardTitle className="font-heading text-lg">Website</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6 space-y-4">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Project Name</Label>
-              <Input 
-                value={projects[0]?.name || ''} 
-                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
-                readOnly
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Website Domain</Label>
-              <Input 
-                value={projects[0]?.domain || 'Not set'} 
-                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
-                readOnly
-              />
-            </div>
+            <p className="text-xs text-subtle flex items-start gap-1.5">
+              <AlertCircle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+              Keep your API key secret. Do not share it publicly.
+            </p>
           </CardContent>
         </Card>
-      )}
 
-      {/* Notifications */}
-      <Card className="border-neutral-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-neutral-100">
-          <div className="flex items-center gap-3">
-            <Bell className="h-5 w-5 text-subtle" />
-            <CardTitle className="font-heading text-lg">Notifications</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6 space-y-4">
-          {[
-            { label: 'Weekly report', desc: 'Get a summary of your analytics every Monday', defaultChecked: true },
-            { label: 'Traffic spikes', desc: 'Notify when traffic increases significantly', defaultChecked: false },
-            { label: 'Quota alerts', desc: 'Warn when approaching event limits', defaultChecked: true },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0">
-              <div>
-                <div className="font-medium text-sm">{item.label}</div>
-                <div className="text-xs text-subtle">{item.desc}</div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked={item.defaultChecked} />
-                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#ff003d]/20 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:h-5 after:w-5 after:transition-all peer-checked:bg-[#ff003d]"></div>
-              </label>
+        {/* Security */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-[#ff003d]" />
+              Security
+            </CardTitle>
+            <CardDescription>Update your password</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Current Password</label>
+              <Input 
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="••••••••"
+              />
             </div>
-          ))}
-        </CardContent>
-      </Card>
-
-      {/* Plan */}
-      <Card className="border-neutral-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-neutral-100">
-          <div className="flex items-center gap-3">
-            <Shield className="h-5 w-5 text-subtle" />
-            <CardTitle className="font-heading text-lg">Plan & Billing</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="flex items-center justify-between p-4 bg-surface border border-neutral-200 mb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold">Hobby Plan</span>
-                <Badge className="bg-green-100 text-green-700 rounded-lg text-xs">Active</Badge>
-              </div>
-              <p className="text-sm text-subtle mt-1">5,000 events/month • 30-day retention</p>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">New Password</label>
+              <Input 
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="••••••••"
+              />
             </div>
-            <span className="text-2xl font-bold font-heading">$0</span>
-          </div>
-          
-          <div className="mb-4">
-            <div className="flex items-center justify-between text-sm mb-2">
-              <span>Events used this month</span>
-              <span className="font-medium">0 / 5,000</span>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Confirm Password</label>
+              <Input 
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+              />
             </div>
-            <div className="h-2 bg-neutral-200 overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]" style={{ width: '0%' }} />
-            </div>
-          </div>
-
-          <Button className="bg-gradient-to-r from-[#ff003d] to-[#ff4d8d] text-white rounded-lg transition-all hover:opacity-90 hover:scale-[1.02]">
-            Upgrade to Pro
-          </Button>
-        </CardContent>
-      </Card>
+            <Button 
+              onClick={handleChangePassword}
+              disabled={saving || !currentPassword || !newPassword}
+              className="w-full bg-[#ff003d] hover:bg-[#ff003d]/90 text-white"
+            >
+              Update Password
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Danger Zone */}
-      <Card className="border-red-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-red-100 bg-red-50">
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="h-5 w-5 text-red-500" />
-            <CardTitle className="font-heading text-lg text-red-700">Danger Zone</CardTitle>
-          </div>
+      <Card className="border-red-500/30">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-red-500">
+            <Trash2 className="h-5 w-5" />
+            Danger Zone
+          </CardTitle>
+          <CardDescription>Irreversible actions</CardDescription>
         </CardHeader>
-        <CardContent className="pt-6 space-y-4">
-          <div className="flex items-center justify-between">
+        <CardContent>
+          <div className="flex items-center justify-between p-4 bg-red-500/10 rounded-lg border border-red-500/20">
             <div>
-              <div className="font-medium text-sm">Delete Project</div>
-              <div className="text-xs text-subtle">Remove this project and all its data</div>
+              <p className="font-medium text-foreground">Delete Account</p>
+              <p className="text-sm text-subtle">Permanently delete your account and all data</p>
             </div>
-            <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-lg">
-              <Trash2 className="h-4 w-4 mr-2" />
-              Delete
-            </Button>
-          </div>
-          <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
-            <div>
-              <div className="font-medium text-sm">Delete Account</div>
-              <div className="text-xs text-subtle">Permanently delete your account and all data</div>
-            </div>
-            <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-lg">
-              <Trash2 className="h-4 w-4 mr-2" />
+            <Button variant="destructive" className="bg-red-600 hover:bg-red-700">
               Delete Account
             </Button>
           </div>

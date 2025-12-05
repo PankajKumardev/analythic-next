@@ -6,23 +6,23 @@ import { motion } from 'framer-motion';
 
 const Features = () => {
   return (
-    <section id="features" className="py-32 px-6 bg-white relative overflow-hidden">
+    <section id="features" className="py-32 px-6 bg-background relative overflow-hidden">
       {/* Technical Grid Background */}
       <div className="absolute inset-0 bg-grid-pattern bg-grid-sm opacity-60 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-20 max-w-2xl">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-1.5 h-1.5 bg-pulse rounded-full"></span>
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400">Core Capabilities</span>
+            <span className="text-xs font-mono uppercase tracking-widest text-subtle">Core Capabilities</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-[1.1]">
             Data intelligence, <br />
-            <span className="text-neutral-400">minus the surveillance.</span>
+            <span className="text-subtle">minus the surveillance.</span>
           </h2>
-          <p className="text-neutral-500 text-lg md:text-xl font-light leading-relaxed">
-            Built for developers who value <span className="text-ink font-medium">precision</span> over bloat and <span className="text-ink font-medium">privacy</span> over profit.
+          <p className="text-subtle text-lg md:text-xl font-light leading-relaxed">
+            Built for developers who value <span className="text-foreground font-medium">precision</span> over bloat and <span className="text-foreground font-medium">privacy</span> over profit.
           </p>
         </div>
 
@@ -31,27 +31,27 @@ const Features = () => {
           {/* Card 1: Privacy (Large) - Structural/Vault Look */}
           <motion.div 
             whileHover={{ y: -4 }}
-            className="md:col-span-2 relative p-8 md:p-10 rounded-none border border-neutral-200 bg-white hover:border-neutral-300 transition-colors group overflow-hidden"
+            className="md:col-span-2 relative p-8 md:p-10 rounded-none border border-border bg-background hover:border-border transition-colors group overflow-hidden"
           >
             {/* Corner Markers */}
-            <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-neutral-300"></div>
-            <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-neutral-300"></div>
-            <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-neutral-300"></div>
-            <div className="absolute bottom-0 right-0 w-3 h-3 border-r border-b border-neutral-300"></div>
+            <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-border"></div>
+            <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-border"></div>
+            <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-border"></div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 border-r border-b border-border"></div>
 
             <div className="flex flex-col h-full justify-between relative z-10">
               <div className="flex justify-between items-start">
-                <div className="w-12 h-12 border border-neutral-100 bg-surface flex items-center justify-center">
-                  <Lock size={20} className="text-ink" />
+                <div className="w-12 h-12 border border-border bg-surface flex items-center justify-center">
+                  <Lock size={20} className="text-foreground" />
                 </div>
-                <div className="px-3 py-1 bg-surface border border-neutral-100 rounded-full">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-500">GDPR Compliant</span>
+                <div className="px-3 py-1 bg-surface border border-border rounded-full">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-subtle">GDPR Compliant</span>
                 </div>
               </div>
 
               <div className="mt-8">
                  <h3 className="text-2xl font-bold mb-3 group-hover:text-pulse transition-colors">Zero PII Collected.</h3>
-                 <p className="text-neutral-500 leading-relaxed max-w-lg">
+                 <p className="text-subtle leading-relaxed max-w-lg">
                    We don&apos;t want your users&apos; data. No IP addresses. No fingerprints. No cookie banners required. Pure, aggregated insights.
                  </p>
               </div>
@@ -66,24 +66,24 @@ const Features = () => {
           {/* Card 2: Speed - Technical Spec Sheet Look */}
           <motion.div 
             whileHover={{ y: -4 }}
-            className="p-8 md:p-10 relative border border-neutral-200 bg-white hover:border-neutral-300 transition-colors group"
+            className="p-8 md:p-10 relative border border-border bg-background hover:border-border transition-colors group"
           >
              {/* Corner Markers */}
-            <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-neutral-300"></div>
-            <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-neutral-300"></div>
+            <div className="absolute top-0 right-0 w-3 h-3 border-r border-t border-border"></div>
+            <div className="absolute bottom-0 left-0 w-3 h-3 border-l border-b border-border"></div>
 
             <div className="flex flex-col h-full justify-between">
-              <div className="w-12 h-12 border border-neutral-100 bg-surface flex items-center justify-center">
-                <Zap size={20} className="text-ink" />
+            <div className="w-12 h-12 border border-border bg-surface flex items-center justify-center">
+                 <Zap size={20} className="text-foreground" />
               </div>
               
               <div className="mt-8">
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-4xl font-mono font-bold tracking-tighter text-ink group-hover:text-pulse transition-colors">&lt;1</span>
-                  <span className="text-xl font-mono text-neutral-400">KB</span>
+                  <span className="text-4xl font-mono font-bold tracking-tighter text-foreground group-hover:text-pulse transition-colors">&lt;1</span>
+                  <span className="text-xl font-mono text-subtle">KB</span>
                 </div>
                 <h3 className="text-lg font-bold mb-2">Ultralight Script</h3>
-                <p className="text-neutral-500 text-sm">
+                <p className="text-subtle text-sm">
                   Lighter than a tweet. Doesn&apos;t block the main thread. 100% Lighthouse score.
                 </p>
               </div>
@@ -93,26 +93,26 @@ const Features = () => {
           {/* Card 3: Ownership - Database Look */}
           <motion.div 
             whileHover={{ y: -4 }}
-            className="p-8 md:p-10 relative border border-neutral-200 bg-white hover:border-neutral-300 transition-colors group"
+            className="p-8 md:p-10 relative border border-border bg-background hover:border-border transition-colors group"
           >
             {/* Corner Markers */}
-            <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-neutral-300"></div>
-            <div className="absolute bottom-0 right-0 w-3 h-3 border-r border-b border-neutral-300"></div>
+            <div className="absolute top-0 left-0 w-3 h-3 border-l border-t border-border"></div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 border-r border-b border-border"></div>
 
              <div className="flex flex-col h-full justify-between">
-               <div className="w-12 h-12 border border-neutral-100 bg-surface flex items-center justify-center">
-                 <Database size={20} className="text-ink" />
+               <div className="w-12 h-12 border border-border bg-surface flex items-center justify-center">
+                 <Database size={20} className="text-foreground" />
                </div>
 
                <div className="mt-8">
                  <h3 className="text-lg font-bold mb-2 group-hover:text-pulse transition-colors">Data Ownership</h3>
-                 <p className="text-neutral-500 text-sm mb-4">
+                 <p className="text-subtle text-sm mb-4">
                    Your database. Your rules. Export to JSON/CSV anytime.
                  </p>
                  <div className="flex gap-2">
-                    <span className="px-2 py-1 bg-surface border border-neutral-100 text-[10px] font-mono text-neutral-500">JSON</span>
-                    <span className="px-2 py-1 bg-surface border border-neutral-100 text-[10px] font-mono text-neutral-500">CSV</span>
-                    <span className="px-2 py-1 bg-surface border border-neutral-100 text-[10px] font-mono text-neutral-500">API</span>
+                    <span className="px-2 py-1 bg-surface border border-border text-[10px] font-mono text-subtle">JSON</span>
+                    <span className="px-2 py-1 bg-surface border border-border text-[10px] font-mono text-subtle">CSV</span>
+                    <span className="px-2 py-1 bg-surface border border-border text-[10px] font-mono text-subtle">API</span>
                  </div>
                </div>
              </div>
@@ -121,7 +121,7 @@ const Features = () => {
           {/* Card 4: Real-time - Live Monitor Look */}
           <motion.div 
             whileHover={{ y: -4 }}
-            className="md:col-span-2 p-0 relative border border-neutral-200 bg-ink overflow-hidden group"
+            className="md:col-span-2 p-0 relative border border-neutral-800 bg-[#0a0a0a] overflow-hidden group"
           >
              <div className="absolute inset-0 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
              
@@ -168,3 +168,5 @@ const Features = () => {
 };
 
 export default Features;
+
+
