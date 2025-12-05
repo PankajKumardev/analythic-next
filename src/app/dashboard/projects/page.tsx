@@ -130,7 +130,7 @@ export default function ProjectsPage() {
       <div className="flex items-center justify-center h-64">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-[#ff003d] border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 text-sm">Loading projects...</p>
+          <p className="text-subtle text-sm">Loading projects...</p>
         </div>
       </div>
     );
@@ -142,10 +142,10 @@ export default function ProjectsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold font-heading mb-1">Projects</h1>
-          <p className="text-gray-500 text-sm">Manage your tracked websites and applications</p>
+          <p className="text-subtle text-sm">Manage your tracked websites and applications</p>
         </div>
         <Button 
-          className="bg-black hover:bg-gray-800 text-white rounded-none transition-all hover:scale-[1.02]"
+          className="bg-black hover:bg-neutral-800 text-white rounded-lg transition-all hover:scale-[1.02]"
           onClick={() => setShowNewProject(true)}
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -180,17 +180,17 @@ export default function ProjectsPage() {
                 placeholder="Project name" 
                 value={newProject.name}
                 onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
-                className="flex-1 rounded-none border-gray-200 focus:border-[#ff003d]"
+                className="flex-1 rounded-lg border-neutral-200 focus:border-[#ff003d]"
               />
               <Input 
                 placeholder="Website URL (optional)" 
                 value={newProject.domain}
                 onChange={(e) => setNewProject({ ...newProject, domain: e.target.value })}
-                className="flex-1 rounded-none border-gray-200 focus:border-[#ff003d]"
+                className="flex-1 rounded-lg border-neutral-200 focus:border-[#ff003d]"
               />
               <div className="flex gap-2">
                 <Button 
-                  className="bg-[#ff003d] hover:bg-[#ff4d8d] text-white rounded-none"
+                  className="bg-[#ff003d] hover:bg-[#ff4d8d] text-white rounded-lg"
                   onClick={createProject}
                   disabled={creating || !newProject.name.trim()}
                 >
@@ -198,7 +198,7 @@ export default function ProjectsPage() {
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="rounded-none"
+                  className="rounded-lg"
                   onClick={() => {
                     setShowNewProject(false);
                     setNewProject({ name: '', domain: '' });
@@ -217,7 +217,7 @@ export default function ProjectsPage() {
         {projects.map((project, index) => (
           <Card 
             key={project.id} 
-            className="border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-300 group"
+            className="border-neutral-200 hover:border-neutral-300 hover:shadow-xl transition-all duration-300 group"
           >
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
@@ -230,14 +230,14 @@ export default function ProjectsPage() {
                   </div>
                   <div>
                     <CardTitle className="text-lg font-heading">{project.name}</CardTitle>
-                    <div className="flex items-center gap-1 text-sm text-gray-500">
+                    <div className="flex items-center gap-1 text-sm text-subtle">
                       <Globe className="h-3 w-3" />
                       {project.domain || 'No domain set'}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Badge className="rounded-none text-xs bg-green-100 text-green-700">
+                  <Badge className="rounded-lg text-xs bg-green-100 text-green-700">
                     active
                   </Badge>
                   <Button 
@@ -253,14 +253,14 @@ export default function ProjectsPage() {
             </CardHeader>
             <CardContent>
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 py-4 border-y border-gray-100 my-4">
+              <div className="grid grid-cols-3 gap-4 py-4 border-y border-neutral-100 my-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold font-heading">
                     {project.stats.views >= 1000 
                       ? `${(project.stats.views / 1000).toFixed(1)}k` 
                       : project.stats.views}
                   </div>
-                  <div className="text-xs text-gray-500">Views</div>
+                  <div className="text-xs text-subtle">Views</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold font-heading">
@@ -268,19 +268,19 @@ export default function ProjectsPage() {
                       ? `${(project.stats.visitors / 1000).toFixed(1)}k` 
                       : project.stats.visitors}
                   </div>
-                  <div className="text-xs text-gray-500">Visitors</div>
+                  <div className="text-xs text-subtle">Visitors</div>
                 </div>
                 <div className="text-center">
                   <div className={`text-2xl font-bold font-heading ${project.stats.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {project.stats.change >= 0 ? '+' : ''}{project.stats.change}%
                   </div>
-                  <div className="text-xs text-gray-500">Change</div>
+                  <div className="text-xs text-subtle">Change</div>
                 </div>
               </div>
 
               {/* API Key */}
               <div className="flex items-center gap-2 mb-4">
-                <code className="flex-1 text-xs bg-gray-100 px-2 py-1.5 font-mono text-gray-600 truncate">
+                <code className="flex-1 text-xs bg-surface px-2 py-1.5 font-mono text-subtle truncate">
                   {project.writeKey}
                 </code>
                 <Button 
@@ -291,18 +291,18 @@ export default function ProjectsPage() {
                 >
                   {copiedId === project.id ? 
                     <Check className="h-3.5 w-3.5 text-green-600" /> : 
-                    <Copy className="h-3.5 w-3.5 text-gray-400" />
+                    <Copy className="h-3.5 w-3.5 text-subtle" />
                   }
                 </Button>
               </div>
 
               {/* Actions */}
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 rounded-none text-sm h-9 hover:bg-gray-50 transition-all">
+                <Button variant="outline" className="flex-1 rounded-lg text-sm h-9 hover:bg-surface transition-all">
                   <BarChart3 className="h-4 w-4 mr-2" />
                   View Stats
                 </Button>
-                <Button variant="outline" className="rounded-none h-9 w-9 p-0 hover:bg-gray-50 transition-all">
+                <Button variant="outline" className="rounded-lg h-9 w-9 p-0 hover:bg-surface transition-all">
                   <Settings className="h-4 w-4" />
                 </Button>
               </div>
@@ -312,28 +312,28 @@ export default function ProjectsPage() {
 
         {/* Add New Project Card */}
         <Card 
-          className="border-dashed border-2 border-gray-200 hover:border-[#ff003d]/50 transition-all duration-300 cursor-pointer group"
+          className="border-dashed border-2 border-neutral-200 hover:border-[#ff003d]/50 transition-all duration-300 cursor-pointer group"
           onClick={() => setShowNewProject(true)}
         >
           <CardContent className="h-full flex flex-col items-center justify-center py-12">
-            <div className="w-16 h-16 rounded-full bg-gray-100 group-hover:bg-[#ff003d]/10 flex items-center justify-center mb-4 transition-colors">
-              <Plus className="h-8 w-8 text-gray-400 group-hover:text-[#ff003d] transition-colors" />
+            <div className="w-16 h-16 rounded-full bg-surface group-hover:bg-[#ff003d]/10 flex items-center justify-center mb-4 transition-colors">
+              <Plus className="h-8 w-8 text-subtle group-hover:text-[#ff003d] transition-colors" />
             </div>
-            <h3 className="font-medium text-gray-600 group-hover:text-black transition-colors">Add New Project</h3>
-            <p className="text-sm text-gray-400 mt-1">Track a new website</p>
+            <h3 className="font-medium text-subtle group-hover:text-black transition-colors">Add New Project</h3>
+            <p className="text-sm text-subtle mt-1">Track a new website</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Empty State */}
       {projects.length === 0 && !showNewProject && (
-        <Card className="border-dashed border-2 border-gray-300">
+        <Card className="border-dashed border-2 border-neutral-300">
           <CardContent className="py-16 text-center">
             <BarChart3 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">No Projects Yet</h3>
-            <p className="text-gray-500 mb-6">Create your first project to start tracking analytics.</p>
+            <p className="text-subtle mb-6">Create your first project to start tracking analytics.</p>
             <Button 
-              className="bg-[#ff003d] hover:bg-[#ff4d8d] text-white rounded-none"
+              className="bg-[#ff003d] hover:bg-[#ff4d8d] text-white rounded-lg"
               onClick={() => setShowNewProject(true)}
             >
               <Plus className="h-4 w-4 mr-2" />

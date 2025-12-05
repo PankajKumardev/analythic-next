@@ -70,18 +70,18 @@ export default function GeographyPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold font-heading mb-1">Geography</h1>
-          <p className="text-gray-500 text-sm">See where your visitors come from</p>
+          <p className="text-subtle text-sm">See where your visitors come from</p>
         </div>
 
         {/* Empty Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {['Countries', 'Total Views', 'Top Country', 'Time Range'].map((label, i) => (
-            <Card key={i} className="border-gray-200">
+            <Card key={i} className="border-neutral-200">
               <CardContent className="pt-6 text-center">
                 <div className="text-3xl font-bold font-heading text-gray-200">
                   {i === 3 ? '30d' : '—'}
                 </div>
-                <div className="text-sm text-gray-400">{label}</div>
+                <div className="text-sm text-subtle">{label}</div>
               </CardContent>
             </Card>
           ))}
@@ -92,7 +92,7 @@ export default function GeographyPage() {
           <CardContent className="py-16 text-center">
             <Globe className="h-16 w-16 text-gray-200 mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">No Geographic Data Yet</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
+            <p className="text-subtle max-w-md mx-auto">
               Start tracking visitors to see where they come from.
               Geographic data is collected automatically with each page view.
             </p>
@@ -108,51 +108,51 @@ export default function GeographyPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold font-heading mb-1">Geography</h1>
-        <p className="text-gray-500 text-sm">Where your visitors come from • Last 30 days</p>
+        <p className="text-subtle text-sm">Where your visitors come from • Last 30 days</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {countries.length}
             </div>
-            <div className="text-sm text-gray-500">Countries</div>
+            <div className="text-sm text-subtle">Countries</div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {totalViews >= 1000 ? `${(totalViews / 1000).toFixed(1)}k` : totalViews}
             </div>
-            <div className="text-sm text-gray-500">Total Views</div>
+            <div className="text-sm text-subtle">Total Views</div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {countryFlags[countries[0]?.name] || '🌍'}
             </div>
-            <div className="text-sm text-gray-500">Top Country</div>
+            <div className="text-sm text-subtle">Top Country</div>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 hover:shadow-lg transition-all group cursor-default">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all group cursor-default">
           <CardContent className="pt-6 text-center">
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               30d
             </div>
-            <div className="text-sm text-gray-500">Time Range</div>
+            <div className="text-sm text-subtle">Time Range</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Countries List */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-neutral-100">
           <div className="flex items-center justify-between">
             <CardTitle className="font-heading text-lg">Countries</CardTitle>
-            <Globe className="h-4 w-4 text-gray-400" />
+            <Globe className="h-4 w-4 text-subtle" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -160,7 +160,7 @@ export default function GeographyPage() {
             {countries.map((country, i) => {
               const percentage = Math.round((country.count / totalViews) * 100);
               return (
-                <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-default">
+                <div key={i} className="flex items-center justify-between p-4 hover:bg-surface transition-colors group cursor-default">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl group-hover:scale-110 transition-transform">
                       {countryFlags[country.name] || '🌍'}
@@ -169,11 +169,11 @@ export default function GeographyPage() {
                       <div className="font-medium text-sm">
                         {countryNames[country.name] || country.name}
                       </div>
-                      <div className="text-xs text-gray-400">{percentage}% of total</div>
+                      <div className="text-xs text-subtle">{percentage}% of total</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-24 h-2 bg-gray-100 overflow-hidden">
+                    <div className="w-24 h-2 bg-surface overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
                         style={{ width: `${percentage}%` }}

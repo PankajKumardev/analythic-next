@@ -100,7 +100,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-center h-64">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-[#ff003d] border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 text-sm">Loading analytics...</p>
+          <p className="text-subtle text-sm">Loading analytics...</p>
         </div>
       </div>
     );
@@ -113,7 +113,7 @@ export default function DashboardPage() {
           <CardContent className="pt-6 text-center">
             <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
             <h3 className="font-bold text-lg mb-2">Error Loading Data</h3>
-            <p className="text-gray-600 mb-4">{error}</p>
+            <p className="text-subtle mb-4">{error}</p>
             <Button onClick={fetchDashboardData} className="bg-red-500 hover:bg-red-600">
               Try Again
             </Button>
@@ -132,7 +132,7 @@ export default function DashboardPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold font-heading mb-1">Overview</h1>
-          <p className="text-gray-500 text-sm">Get started with analytics</p>
+          <p className="text-subtle text-sm">Get started with analytics</p>
         </div>
 
         {/* Stats Cards - All zeros */}
@@ -143,14 +143,14 @@ export default function DashboardPage() {
             { title: 'Countries', icon: Globe, color: 'text-blue-500' },
             { title: 'Pages Tracked', icon: BarChart3, color: 'text-orange-500' },
           ].map((stat, i) => (
-            <Card key={i} className="border-gray-200">
+            <Card key={i} className="border-neutral-200">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-gray-500">{stat.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-subtle">{stat.title}</CardTitle>
                 <stat.icon className={`h-4 w-4 ${stat.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold font-heading text-gray-300">0</div>
-                <div className="text-xs text-gray-400 mt-2">No data yet</div>
+                <div className="text-3xl font-bold font-heading text-neutral-300">0</div>
+                <div className="text-xs text-subtle mt-2">No data yet</div>
               </CardContent>
             </Card>
           ))}
@@ -161,13 +161,13 @@ export default function DashboardPage() {
           <CardContent className="py-12 text-center">
             <Zap className="h-16 w-16 text-[#ff003d] mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">Start Tracking Analytics</h3>
-            <p className="text-gray-500 mb-6 max-w-md mx-auto">
+            <p className="text-subtle mb-6 max-w-md mx-auto">
               Add the tracking script to your website to start collecting real analytics data.
             </p>
             
             {writeKey ? (
               <div className="max-w-2xl mx-auto">
-                <div className="bg-gray-900 text-gray-100 p-4 font-mono text-sm text-left overflow-x-auto rounded-none">
+                <div className="bg-ink text-gray-100 p-4 font-mono text-sm text-left overflow-x-auto rounded-lg">
                   <pre className="whitespace-pre-wrap">{`<script defer src="${typeof window !== 'undefined' ? window.location.origin : ''}/tracker.js" 
   data-key="${writeKey}">
 </script>`}</pre>
@@ -175,7 +175,7 @@ export default function DashboardPage() {
                 <div className="flex justify-center gap-3 mt-4">
                   <Button 
                     onClick={copyWriteKey}
-                    className="bg-black hover:bg-gray-800"
+                    className="bg-black hover:bg-neutral-800"
                   >
                     {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
                     {copied ? 'Copied!' : 'Copy Script'}
@@ -190,8 +190,8 @@ export default function DashboardPage() {
                 </div>
                 
                 {/* Seed Sample Data for Testing */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <p className="text-gray-400 text-sm mb-3">Or load sample data for testing:</p>
+                <div className="mt-6 pt-6 border-t border-neutral-200">
+                  <p className="text-subtle text-sm mb-3">Or load sample data for testing:</p>
                   <Button 
                     variant="outline"
                     className="border-[#ff003d]/30 text-[#ff003d] hover:bg-[#ff003d]/10"
@@ -219,7 +219,7 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div>
-                <p className="text-gray-500 mb-4">First, create a project to get your tracking key.</p>
+                <p className="text-subtle mb-4">First, create a project to get your tracking key.</p>
                 <Button 
                   className="bg-[#ff003d] hover:bg-[#ff4d8d]"
                   onClick={() => window.location.href = '/dashboard/projects'}
@@ -246,30 +246,30 @@ export default function DashboardPage() {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-2xl font-bold font-heading">Overview</h1>
-            <Badge className="bg-green-100 text-green-700 hover:bg-green-100 rounded-none text-xs">
+            <Badge className="bg-green-100 text-green-700 hover:bg-green-100 rounded-lg text-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 animate-pulse" />
               Live
             </Badge>
           </div>
-          <p className="text-gray-500 text-sm">{projects[0]?.name || 'All Projects'} • Last 7 days</p>
+          <p className="text-subtle text-sm">{projects[0]?.name || 'All Projects'} • Last 7 days</p>
         </div>
         
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 p-2 pl-3 hover:border-gray-300 transition-colors">
-            <code className="text-xs text-gray-600 font-mono truncate max-w-[200px]">{writeKey}</code>
+          <div className="flex items-center gap-2 bg-surface border border-neutral-200 p-2 pl-3 hover:border-neutral-300 transition-colors">
+            <code className="text-xs text-subtle font-mono truncate max-w-[200px]">{writeKey}</code>
             <Button 
               variant="ghost" 
               size="sm" 
-              className="h-7 w-7 p-0 hover:bg-gray-200 transition-all"
+              className="h-7 w-7 p-0 hover:bg-neutral-200 transition-all"
               onClick={copyWriteKey}
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5 text-gray-400" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5 text-subtle" />}
             </Button>
           </div>
           <Button 
             variant="outline" 
             size="sm" 
-            className="rounded-none border-[#ff003d]/30 text-[#ff003d] hover:bg-[#ff003d]/10 transition-all"
+            className="rounded-lg border-[#ff003d]/30 text-[#ff003d] hover:bg-[#ff003d]/10 transition-all"
             onClick={async () => {
               const token = localStorage.getItem('token');
               try {
@@ -290,7 +290,7 @@ export default function DashboardPage() {
           <Button 
             variant="outline" 
             size="sm" 
-            className="rounded-none border-gray-200 hover:bg-gray-50 transition-all hover:scale-[1.02]"
+            className="rounded-lg border-neutral-200 hover:bg-surface transition-all hover:scale-[1.02]"
             onClick={fetchDashboardData}
           >
             <RefreshCw className="h-4 w-4" />
@@ -300,62 +300,62 @@ export default function DashboardPage() {
 
       {/* Stats Cards - Real Data */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 group cursor-default">
+        <Card className="border-neutral-200 hover:border-neutral-300 hover:shadow-lg transition-all duration-300 group cursor-default">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Total Views</CardTitle>
+            <CardTitle className="text-sm font-medium text-subtle">Total Views</CardTitle>
             <Eye className="h-4 w-4 text-[#ff003d] group-hover:scale-110 transition-transform" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {totalViews.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-500 mt-2">Last 7 days</div>
+            <div className="text-xs text-subtle mt-2">Last 7 days</div>
           </CardContent>
         </Card>
 
-        <Card className="border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 group cursor-default">
+        <Card className="border-neutral-200 hover:border-neutral-300 hover:shadow-lg transition-all duration-300 group cursor-default">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Unique Visitors</CardTitle>
+            <CardTitle className="text-sm font-medium text-subtle">Unique Visitors</CardTitle>
             <Users className="h-4 w-4 text-purple-500 group-hover:scale-110 transition-transform" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {totalVisitors.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-500 mt-2">Last 7 days</div>
+            <div className="text-xs text-subtle mt-2">Last 7 days</div>
           </CardContent>
         </Card>
 
-        <Card className="border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 group cursor-default">
+        <Card className="border-neutral-200 hover:border-neutral-300 hover:shadow-lg transition-all duration-300 group cursor-default">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Countries</CardTitle>
+            <CardTitle className="text-sm font-medium text-subtle">Countries</CardTitle>
             <Globe className="h-4 w-4 text-blue-500 group-hover:scale-110 transition-transform" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {stats!.topCountries.length}
             </div>
-            <div className="text-xs text-gray-500 mt-2">Unique locations</div>
+            <div className="text-xs text-subtle mt-2">Unique locations</div>
           </CardContent>
         </Card>
 
-        <Card className="border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 group cursor-default">
+        <Card className="border-neutral-200 hover:border-neutral-300 hover:shadow-lg transition-all duration-300 group cursor-default">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Pages Tracked</CardTitle>
+            <CardTitle className="text-sm font-medium text-subtle">Pages Tracked</CardTitle>
             <BarChart3 className="h-4 w-4 text-orange-500 group-hover:scale-110 transition-transform" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
               {stats!.topPages.length}
             </div>
-            <div className="text-xs text-gray-500 mt-2">Unique pages</div>
+            <div className="text-xs text-subtle mt-2">Unique pages</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Chart */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all duration-300">
+        <CardHeader className="border-b border-neutral-100">
           <div className="flex items-center justify-between">
             <CardTitle className="font-heading text-lg">Traffic Overview</CardTitle>
             <div className="flex gap-4 text-sm">
@@ -401,7 +401,7 @@ export default function DashboardPage() {
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex items-center justify-center text-gray-400">
+              <div className="h-full flex items-center justify-center text-subtle">
                 No chart data available
               </div>
             )}
@@ -412,18 +412,18 @@ export default function DashboardPage() {
       {/* Two Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Pages */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-          <CardHeader className="border-b border-gray-100">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b border-neutral-100">
             <CardTitle className="font-heading text-lg">Top Pages</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {stats!.topPages.length > 0 ? (
               <div className="divide-y divide-gray-100">
                 {stats!.topPages.map((page, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-pointer">
+                  <div key={i} className="flex items-center justify-between p-4 hover:bg-surface transition-colors group cursor-pointer">
                     <div className="flex items-center gap-4">
-                      <span className="text-gray-400 text-sm font-mono w-5">{i + 1}</span>
-                      <code className="text-sm text-gray-900 bg-gray-100 px-2 py-0.5 group-hover:bg-gray-200 transition-colors truncate max-w-[200px]">
+                      <span className="text-subtle text-sm font-mono w-5">{i + 1}</span>
+                      <code className="text-sm text-ink bg-surface px-2 py-0.5 group-hover:bg-neutral-200 transition-colors truncate max-w-[200px]">
                         {page.name}
                       </code>
                     </div>
@@ -432,14 +432,14 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <div className="p-8 text-center text-gray-400">No page data</div>
+              <div className="p-8 text-center text-subtle">No page data</div>
             )}
           </CardContent>
         </Card>
 
         {/* Top Countries */}
-        <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-          <CardHeader className="border-b border-gray-100">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all duration-300">
+          <CardHeader className="border-b border-neutral-100">
             <CardTitle className="font-heading text-lg">Top Countries</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
@@ -449,7 +449,7 @@ export default function DashboardPage() {
                   const total = stats!.topCountries.reduce((a, b) => a + b.count, 0);
                   const percentage = Math.round((country.count / total) * 100);
                   return (
-                    <div key={i} className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group cursor-pointer">
+                    <div key={i} className="flex items-center justify-between p-4 hover:bg-surface transition-colors group cursor-pointer">
                       <div className="flex items-center gap-3">
                         <span className="text-2xl group-hover:scale-110 transition-transform">
                           {countryFlags[country.name] || '🌍'}
@@ -457,7 +457,7 @@ export default function DashboardPage() {
                         <span className="font-medium text-sm">{country.name}</span>
                       </div>
                       <div className="flex items-center gap-4">
-                        <div className="w-20 h-2 bg-gray-100 overflow-hidden">
+                        <div className="w-20 h-2 bg-surface overflow-hidden">
                           <div 
                             className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
                             style={{ width: `${percentage}%` }}
@@ -470,15 +470,15 @@ export default function DashboardPage() {
                 })}
               </div>
             ) : (
-              <div className="p-8 text-center text-gray-400">No country data</div>
+              <div className="p-8 text-center text-subtle">No country data</div>
             )}
           </CardContent>
         </Card>
       </div>
 
       {/* Devices - Real data */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all duration-300">
+        <CardHeader className="border-b border-neutral-100">
           <CardTitle className="font-heading text-lg">Devices</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
@@ -488,16 +488,16 @@ export default function DashboardPage() {
               { name: 'Mobile', value: stats!.devices.mobile, icon: Smartphone },
               { name: 'Tablet', value: stats!.devices.tablet, icon: Tablet },
             ].map((device, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 bg-gray-50 hover:bg-gray-100 transition-colors group cursor-default">
-                <div className="w-12 h-12 bg-white border border-gray-200 flex items-center justify-center group-hover:border-[#ff003d]/30 transition-colors">
-                  <device.icon className="h-6 w-6 text-gray-600 group-hover:text-[#ff003d] transition-colors" />
+              <div key={i} className="flex items-center gap-4 p-4 bg-surface hover:bg-surface transition-colors group cursor-default">
+                <div className="w-12 h-12 bg-white border border-neutral-200 flex items-center justify-center group-hover:border-[#ff003d]/30 transition-colors">
+                  <device.icon className="h-6 w-6 text-subtle group-hover:text-[#ff003d] transition-colors" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-medium text-sm">{device.name}</span>
                     <span className="font-bold text-lg">{device.value}%</span>
                   </div>
-                  <div className="h-2 bg-gray-200 overflow-hidden">
+                  <div className="h-2 bg-neutral-200 overflow-hidden">
                     <div 
                       className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
                       style={{ width: `${device.value}%` }}
@@ -511,22 +511,22 @@ export default function DashboardPage() {
       </Card>
 
       {/* Script Installation */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all duration-300">
+        <CardHeader className="border-b border-neutral-100">
           <CardTitle className="font-heading text-lg">Install Tracking Script</CardTitle>
         </CardHeader>
         <CardContent className="pt-4">
-          <p className="text-gray-500 mb-4 text-sm">
-            Add this script to your website's <code className="bg-gray-100 px-1.5 py-0.5 text-xs">&lt;head&gt;</code> tag:
+          <p className="text-subtle mb-4 text-sm">
+            Add this script to your website's <code className="bg-surface px-1.5 py-0.5 text-xs">&lt;head&gt;</code> tag:
           </p>
-          <div className="bg-gray-900 text-gray-100 p-4 font-mono text-sm overflow-x-auto group relative">
+          <div className="bg-ink text-gray-100 p-4 font-mono text-sm overflow-x-auto group relative">
             <pre>{`<script defer src="${typeof window !== 'undefined' ? window.location.origin : ''}/tracker.js" 
   data-key="${writeKey}">
 </script>`}</pre>
             <Button 
               variant="ghost" 
               size="sm" 
-              className="absolute top-2 right-2 h-8 text-gray-400 hover:text-white hover:bg-gray-800"
+              className="absolute top-2 right-2 h-8 text-subtle hover:text-white hover:bg-neutral-800"
               onClick={copyWriteKey}
             >
               {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}

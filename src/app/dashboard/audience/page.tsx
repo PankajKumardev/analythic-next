@@ -60,7 +60,7 @@ export default function AudiencePage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold font-heading mb-1">Audience</h1>
-          <p className="text-gray-500 text-sm">Understand who visits your website</p>
+          <p className="text-subtle text-sm">Understand who visits your website</p>
         </div>
 
         {/* Empty Device Cards */}
@@ -70,15 +70,15 @@ export default function AudiencePage() {
             { name: 'Mobile', icon: Smartphone },
             { name: 'Tablet', icon: Tablet },
           ].map((device, i) => (
-            <Card key={i} className="border-gray-200">
+            <Card key={i} className="border-neutral-200">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gray-100 flex items-center justify-center">
+                  <div className="w-14 h-14 bg-surface flex items-center justify-center">
                     <device.icon className="h-7 w-7 text-gray-300" />
                   </div>
                   <div>
                     <div className="text-3xl font-bold font-heading text-gray-200">0%</div>
-                    <div className="text-sm text-gray-400">{device.name}</div>
+                    <div className="text-sm text-subtle">{device.name}</div>
                   </div>
                 </div>
               </CardContent>
@@ -91,7 +91,7 @@ export default function AudiencePage() {
           <CardContent className="py-16 text-center">
             <Users className="h-16 w-16 text-gray-200 mx-auto mb-4" />
             <h3 className="text-xl font-bold font-heading mb-2">No Audience Data Yet</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
+            <p className="text-subtle max-w-md mx-auto">
               Start tracking visitors to see device, browser, and audience insights.
               Add the tracking script to your website to begin collecting data.
             </p>
@@ -124,26 +124,26 @@ export default function AudiencePage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold font-heading mb-1">Audience</h1>
-        <p className="text-gray-500 text-sm">Understand who visits your website • Last 30 days</p>
+        <p className="text-subtle text-sm">Understand who visits your website • Last 30 days</p>
       </div>
 
       {/* Device Breakdown */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {deviceList.map((device, i) => (
-          <Card key={i} className="border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all group cursor-default">
+          <Card key={i} className="border-neutral-200 hover:border-gray-300 hover:shadow-lg transition-all group cursor-default">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gray-100 group-hover:bg-[#ff003d]/10 flex items-center justify-center transition-colors">
-                  <device.icon className="h-7 w-7 text-gray-600 group-hover:text-[#ff003d] transition-colors" />
+                <div className="w-14 h-14 bg-surface group-hover:bg-[#ff003d]/10 flex items-center justify-center transition-colors">
+                  <device.icon className="h-7 w-7 text-subtle group-hover:text-[#ff003d] transition-colors" />
                 </div>
                 <div className="flex-1">
                   <div className="text-3xl font-bold font-heading group-hover:text-[#ff003d] transition-colors">
                     {device.value}%
                   </div>
-                  <div className="text-sm text-gray-500">{device.name}</div>
+                  <div className="text-sm text-subtle">{device.name}</div>
                 </div>
               </div>
-              <div className="mt-4 h-2 bg-gray-100 overflow-hidden">
+              <div className="mt-4 h-2 bg-surface overflow-hidden">
                 <div 
                   className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]"
                   style={{ width: `${device.value}%` }}
@@ -155,8 +155,8 @@ export default function AudiencePage() {
       </div>
 
       {/* Browsers */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-neutral-100">
           <CardTitle className="font-heading text-lg">Browsers</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
@@ -190,7 +190,7 @@ export default function AudiencePage() {
                   </div>
                   <div className="text-right">
                     <span className="font-bold text-sm">{browser.value}%</span>
-                    <span className="text-xs text-gray-400 ml-2">({browser.count.toLocaleString()})</span>
+                    <span className="text-xs text-subtle ml-2">({browser.count.toLocaleString()})</span>
                   </div>
                 </div>
               ))}

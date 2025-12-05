@@ -99,14 +99,14 @@ export default function SettingsPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold font-heading mb-1">Settings</h1>
-        <p className="text-gray-500 text-sm">Manage your account and preferences</p>
+        <p className="text-subtle text-sm">Manage your account and preferences</p>
       </div>
 
       {/* Profile */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-neutral-100">
           <div className="flex items-center gap-3">
-            <User className="h-5 w-5 text-gray-400" />
+            <User className="h-5 w-5 text-subtle" />
             <CardTitle className="font-heading text-lg">Profile</CardTitle>
           </div>
         </CardHeader>
@@ -116,10 +116,10 @@ export default function SettingsPage() {
               {formData.name?.[0]?.toUpperCase() || formData.email?.[0]?.toUpperCase() || 'A'}
             </div>
             <div>
-              <Button variant="outline" className="rounded-none text-sm">
+              <Button variant="outline" className="rounded-lg text-sm">
                 Change Avatar
               </Button>
-              <p className="text-xs text-gray-500 mt-2">JPG, PNG or GIF. Max 2MB.</p>
+              <p className="text-xs text-subtle mt-2">JPG, PNG or GIF. Max 2MB.</p>
             </div>
           </div>
           
@@ -130,7 +130,7 @@ export default function SettingsPage() {
                 id="name"
                 value={formData.name} 
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="rounded-none border-gray-200 focus:border-[#ff003d]"
+                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
               />
             </div>
             <div className="space-y-2">
@@ -140,13 +140,13 @@ export default function SettingsPage() {
                 type="email"
                 value={formData.email} 
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="rounded-none border-gray-200 focus:border-[#ff003d]"
+                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
               />
             </div>
           </div>
 
           <Button 
-            className="bg-black hover:bg-gray-800 text-white rounded-none transition-all hover:scale-[1.02]"
+            className="bg-black hover:bg-neutral-800 text-white rounded-lg transition-all hover:scale-[1.02]"
             onClick={handleSave}
             disabled={saving}
           >
@@ -171,18 +171,18 @@ export default function SettingsPage() {
       </Card>
 
       {/* API Key */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-neutral-100">
           <div className="flex items-center gap-3">
-            <Key className="h-5 w-5 text-gray-400" />
+            <Key className="h-5 w-5 text-subtle" />
             <CardTitle className="font-heading text-lg">API Key</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="pt-6 space-y-4">
-          <p className="text-sm text-gray-500">Use this key to authenticate your tracking script.</p>
+          <p className="text-sm text-subtle">Use this key to authenticate your tracking script.</p>
           
           <div className="flex items-center gap-2">
-            <div className="flex-1 flex items-center gap-2 bg-gray-50 border border-gray-200 p-3">
+            <div className="flex-1 flex items-center gap-2 bg-surface border border-neutral-200 p-3">
               <code className="flex-1 text-sm font-mono">
                 {showKey ? apiKey : '••••••••-••••-••••-••••-••••••••••••'}
               </code>
@@ -197,14 +197,14 @@ export default function SettingsPage() {
             </div>
             <Button 
               variant="outline" 
-              className="rounded-none h-12"
+              className="rounded-lg h-12"
               onClick={copyKey}
             >
               {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
 
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-subtle">
             This key is tied to your first project. Create multiple projects for separate tracking keys.
           </p>
         </CardContent>
@@ -212,10 +212,10 @@ export default function SettingsPage() {
 
       {/* Website Settings */}
       {projects.length > 0 && (
-        <Card className="border-gray-200 hover:shadow-lg transition-all">
-          <CardHeader className="border-b border-gray-100">
+        <Card className="border-neutral-200 hover:shadow-lg transition-all">
+          <CardHeader className="border-b border-neutral-100">
             <div className="flex items-center gap-3">
-              <Globe className="h-5 w-5 text-gray-400" />
+              <Globe className="h-5 w-5 text-subtle" />
               <CardTitle className="font-heading text-lg">Website</CardTitle>
             </div>
           </CardHeader>
@@ -224,7 +224,7 @@ export default function SettingsPage() {
               <Label className="text-sm font-medium">Project Name</Label>
               <Input 
                 value={projects[0]?.name || ''} 
-                className="rounded-none border-gray-200 focus:border-[#ff003d]"
+                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
                 readOnly
               />
             </div>
@@ -233,7 +233,7 @@ export default function SettingsPage() {
               <Label className="text-sm font-medium">Website Domain</Label>
               <Input 
                 value={projects[0]?.domain || 'Not set'} 
-                className="rounded-none border-gray-200 focus:border-[#ff003d]"
+                className="rounded-lg border-neutral-200 focus:border-[#ff003d]"
                 readOnly
               />
             </div>
@@ -242,10 +242,10 @@ export default function SettingsPage() {
       )}
 
       {/* Notifications */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-neutral-100">
           <div className="flex items-center gap-3">
-            <Bell className="h-5 w-5 text-gray-400" />
+            <Bell className="h-5 w-5 text-subtle" />
             <CardTitle className="font-heading text-lg">Notifications</CardTitle>
           </div>
         </CardHeader>
@@ -255,14 +255,14 @@ export default function SettingsPage() {
             { label: 'Traffic spikes', desc: 'Notify when traffic increases significantly', defaultChecked: false },
             { label: 'Quota alerts', desc: 'Warn when approaching event limits', defaultChecked: true },
           ].map((item, i) => (
-            <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+            <div key={i} className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0">
               <div>
                 <div className="font-medium text-sm">{item.label}</div>
-                <div className="text-xs text-gray-500">{item.desc}</div>
+                <div className="text-xs text-subtle">{item.desc}</div>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked={item.defaultChecked} />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#ff003d]/20 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:h-5 after:w-5 after:transition-all peer-checked:bg-[#ff003d]"></div>
+                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#ff003d]/20 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:h-5 after:w-5 after:transition-all peer-checked:bg-[#ff003d]"></div>
               </label>
             </div>
           ))}
@@ -270,21 +270,21 @@ export default function SettingsPage() {
       </Card>
 
       {/* Plan */}
-      <Card className="border-gray-200 hover:shadow-lg transition-all">
-        <CardHeader className="border-b border-gray-100">
+      <Card className="border-neutral-200 hover:shadow-lg transition-all">
+        <CardHeader className="border-b border-neutral-100">
           <div className="flex items-center gap-3">
-            <Shield className="h-5 w-5 text-gray-400" />
+            <Shield className="h-5 w-5 text-subtle" />
             <CardTitle className="font-heading text-lg">Plan & Billing</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="pt-6">
-          <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 mb-4">
+          <div className="flex items-center justify-between p-4 bg-surface border border-neutral-200 mb-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">Hobby Plan</span>
-                <Badge className="bg-green-100 text-green-700 rounded-none text-xs">Active</Badge>
+                <Badge className="bg-green-100 text-green-700 rounded-lg text-xs">Active</Badge>
               </div>
-              <p className="text-sm text-gray-500 mt-1">5,000 events/month • 30-day retention</p>
+              <p className="text-sm text-subtle mt-1">5,000 events/month • 30-day retention</p>
             </div>
             <span className="text-2xl font-bold font-heading">$0</span>
           </div>
@@ -294,12 +294,12 @@ export default function SettingsPage() {
               <span>Events used this month</span>
               <span className="font-medium">0 / 5,000</span>
             </div>
-            <div className="h-2 bg-gray-200 overflow-hidden">
+            <div className="h-2 bg-neutral-200 overflow-hidden">
               <div className="h-full bg-gradient-to-r from-[#ff003d] to-[#ff4d8d]" style={{ width: '0%' }} />
             </div>
           </div>
 
-          <Button className="bg-gradient-to-r from-[#ff003d] to-[#ff4d8d] text-white rounded-none transition-all hover:opacity-90 hover:scale-[1.02]">
+          <Button className="bg-gradient-to-r from-[#ff003d] to-[#ff4d8d] text-white rounded-lg transition-all hover:opacity-90 hover:scale-[1.02]">
             Upgrade to Pro
           </Button>
         </CardContent>
@@ -317,19 +317,19 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-sm">Delete Project</div>
-              <div className="text-xs text-gray-500">Remove this project and all its data</div>
+              <div className="text-xs text-subtle">Remove this project and all its data</div>
             </div>
-            <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-none">
+            <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-lg">
               <Trash2 className="h-4 w-4 mr-2" />
               Delete
             </Button>
           </div>
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-between pt-4 border-t border-neutral-100">
             <div>
               <div className="font-medium text-sm">Delete Account</div>
-              <div className="text-xs text-gray-500">Permanently delete your account and all data</div>
+              <div className="text-xs text-subtle">Permanently delete your account and all data</div>
             </div>
-            <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-none">
+            <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-lg">
               <Trash2 className="h-4 w-4 mr-2" />
               Delete Account
             </Button>
